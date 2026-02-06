@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary Brand Color: Institutional Red */
+    /* Using a tailored Red scale that is professional and accessible */
+    --primary-50: 254 242 242;
+    /* #FEF2F2 */
+    --primary-100: 254 226 226;
+    /* #FEE2E2 */
+    --primary-200: 254 202 202;
+    /* #FECACA */
+    --primary-300: 252 165 165;
+    /* #FCA5A5 */
+    --primary-400: 248 113 113;
+    /* #F87171 */
+    --primary-500: 239 68 68;
+    /* #EF4444 */
+    --primary-600: 220 38 38;
+    /* #DC2626 - Main Brand Color */
+    --primary-700: 185 28 28;
+    /* #B91C1C */
+    --primary-800: 153 27 27;
+    /* #991B1B */
+    --primary-900: 127 29 29;
+    /* #7F1D1D */
+    --primary-950: 69 10 10;
+    /* #450A0A */
+
+    /* Secondary Brand Color: Institutional Yellow/Amber */
+    /* Soft, not too saturated, for highlights */
+    --secondary-50: 255 251 235;
+    /* #FFFBEB */
+    --secondary-100: 254 243 199;
+    /* #FEF3C7 */
+    --secondary-200: 253 230 138;
+    /* #FDE68A */
+    --secondary-300: 252 211 77;
+    /* #FCD34D */
+    --secondary-400: 251 191 36;
+    /* #FBBF24 */
+    --secondary-500: 245 158 11;
+    /* #F59E0B */
+    --secondary-600: 217 119 6;
+    /* #D97706 */
+    --secondary-700: 180 83 9;
+    /* #B45309 */
+    --secondary-800: 146 64 14;
+    /* #92400E */
+    --secondary-900: 120 53 15;
+    /* #78350F */
+
+    /* Status Colors */
+    --success: 22 163 74;
+    /* #16A34A (Green 600) */
+    --warning: 234 179 8;
+    /* #EAB308 (Yellow 500) */
+    --error: 220 38 38;
+    /* #DC2626 (Red 600 - Matches Primary) */
+
+    /* Document Backgrounds */
+    --bg-page: 248 250 252;
+    /* Slate 50 - Very light cool gray */
+    --bg-surface: 255 255 255;
+    /* White */
+    --color-border: 226 232 240;
+    /* Slate 200 */
+  }
+
+  body {
+    @apply antialiased text-gray-900 bg-slate-50 selection:bg-red-100 selection:text-red-900;
+  }
+}
+
+/* Custom Scrollbar Styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+aside,
+aside * {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+aside::-webkit-scrollbar,
+aside *::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
+}

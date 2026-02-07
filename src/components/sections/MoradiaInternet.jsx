@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormContext as useRHFContext, Controller } from 'react-hook-form';
 import { Label } from '@/components/ui/Label';
+import { Input } from '@/components/ui/Input';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Home, Wifi } from 'lucide-react';
 
@@ -33,6 +34,15 @@ export function MoradiaInternet() {
                                 />
                             )}
                         />
+                        {watch('moradia_condicao') === 'Outro' && (
+                            <div className="mt-4 animate-in fade-in">
+                                <Label htmlFor="moradia_condicao_outro">Especifique a condição:</Label>
+                                <Input
+                                    id="moradia_condicao_outro"
+                                    {...register('moradia_condicao_outro')}
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <div className="space-y-2">
@@ -49,6 +59,15 @@ export function MoradiaInternet() {
                                 />
                             )}
                         />
+                        {watch('moradia_tipo') === 'Outro' && (
+                            <div className="mt-4 animate-in fade-in">
+                                <Label htmlFor="moradia_tipo_outro">Especifique o tipo:</Label>
+                                <Input
+                                    id="moradia_tipo_outro"
+                                    {...register('moradia_tipo_outro')}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -91,6 +110,15 @@ export function MoradiaInternet() {
                                         />
                                     )}
                                 />
+                                {watch('internet_tipo') === 'Outro' && (
+                                    <div className="mt-4 animate-in fade-in">
+                                        <Label htmlFor="internet_tipo_outro">Especifique:</Label>
+                                        <Input
+                                            id="internet_tipo_outro"
+                                            {...register('internet_tipo_outro')}
+                                        />
+                                    </div>
+                                )}
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="internet_sinal">O sinal é estável?</Label>
@@ -106,6 +134,15 @@ export function MoradiaInternet() {
                                         />
                                     )}
                                 />
+                                {watch('internet_sinal') === 'Outro' && (
+                                    <div className="mt-4 animate-in fade-in">
+                                        <Label htmlFor="internet_sinal_outro">Especifique:</Label>
+                                        <Input
+                                            id="internet_sinal_outro"
+                                            {...register('internet_sinal_outro')}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}

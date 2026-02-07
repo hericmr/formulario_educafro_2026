@@ -87,6 +87,15 @@ export function TrabalhoRenda() {
                                         />
                                     )}
                                 />
+                                {watch('trabalho_vinculo') === 'Outro' && (
+                                    <div className="mt-4 animate-in fade-in">
+                                        <Label htmlFor="trabalho_vinculo_outro">Especifique o vínculo:</Label>
+                                        <Input
+                                            id="trabalho_vinculo_outro"
+                                            {...register('trabalho_vinculo_outro')}
+                                        />
+                                    </div>
+                                )}
                             </div>
 
                             {/* Q4 */}
@@ -114,7 +123,7 @@ export function TrabalhoRenda() {
                                     render={({ field }) => (
                                         <RadioGroup
                                             {...field}
-                                            options={['Gastos pessoais', 'Estudos', 'Despesas da casa', 'Principal responsável pelo sustento']}
+                                            options={['Gastos pessoais', 'Estudos', 'Despesas da casa', 'Principal responsável pelo sustento da casa.']}
                                             error={errors.trabalho_uso_dinheiro?.message}
                                             columns={2}
                                         />

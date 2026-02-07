@@ -59,6 +59,16 @@ export function RendaBeneficios() {
                             />
                         )}
                     />
+                    {watch('renda_familiar') === 'Outro' && (
+                        <div className="mt-4 animate-in fade-in">
+                            <Label htmlFor="renda_familiar_outro">Especifique a renda:</Label>
+                            <Input
+                                id="renda_familiar_outro"
+                                {...register('renda_familiar_outro')}
+                                placeholder="Valor ou faixa"
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -86,23 +96,23 @@ export function RendaBeneficios() {
                         />
                     </div>
 
+                    <div className="space-y-2">
+                        <Label>Possui CadÚnico?</Label>
+                        <Controller
+                            name="beneficios_cadunico"
+                            control={control}
+                            render={({ field }) => (
+                                <RadioGroup
+                                    {...field}
+                                    options={['Sim', 'Não']}
+                                    columns={2}
+                                />
+                            )}
+                        />
+                    </div>
+
                     {recebeBeneficios && (
                         <div className="space-y-4 p-4 bg-primary-50 rounded-xl border border-primary-100 animate-in fade-in">
-                            <div className="space-y-2">
-                                <Label>Possui CadÚnico?</Label>
-                                <Controller
-                                    name="beneficios_cadunico"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <RadioGroup
-                                            {...field}
-                                            options={['Sim', 'Não']}
-                                            columns={2}
-                                        />
-                                    )}
-                                />
-                            </div>
-
                             <div className="space-y-2">
                                 <Label>Quais benefícios recebe?</Label>
                                 <Controller
@@ -116,6 +126,16 @@ export function RendaBeneficios() {
                                         />
                                     )}
                                 />
+                                {watch('beneficios_tipo')?.includes('Outro') && (
+                                    <div className="mt-4 animate-in fade-in">
+                                        <Label htmlFor="beneficios_outro">Especifique o benefício:</Label>
+                                        <Input
+                                            id="beneficios_outro"
+                                            {...register('beneficios_outro')}
+                                            placeholder="Qual?"
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}

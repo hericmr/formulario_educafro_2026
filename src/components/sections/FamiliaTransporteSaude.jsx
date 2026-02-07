@@ -125,6 +125,16 @@ export function FamiliaTransporteSaude() {
                                 />
                             )}
                         />
+                        {watch('transporte_meio') === 'Outro' && (
+                            <div className="mt-4 animate-in fade-in">
+                                <Label htmlFor="transporte_meio_outro">Especifique o meio de transporte:</Label>
+                                <Input
+                                    id="transporte_meio_outro"
+                                    {...register('transporte_meio_outro')}
+                                    placeholder="Qual?"
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <div className="space-y-2">
@@ -153,9 +163,7 @@ export function FamiliaTransporteSaude() {
                 </h2>
 
                 <div className="space-y-6">
-                    {/* 1. Acesso aos serviços de saúde */}
                     <div className="space-y-4">
-                        <h3 className="font-semibold text-gray-900 border-b pb-2">1. Acesso aos serviços de saúde</h3>
                         <div className="space-y-2">
                             <Label>Você utiliza os serviços do SUS ou possui plano de saúde?</Label>
                             <Controller
@@ -199,9 +207,7 @@ export function FamiliaTransporteSaude() {
                         )}
                     </div>
 
-                    {/* 2. Tipo sanguíneo */}
                     <div className="space-y-4">
-                        <h3 className="font-semibold text-gray-900 border-b pb-2">2. Tipo sanguíneo</h3>
                         <div className="space-y-2">
                             <Label>Você sabe qual é o seu tipo sanguíneo?</Label>
                             <Controller
@@ -219,9 +225,7 @@ export function FamiliaTransporteSaude() {
                         </div>
                     </div>
 
-                    {/* 3. Saúde mental – psicoterapia */}
                     <div className="space-y-4">
-                        <h3 className="font-semibold text-gray-900 border-b pb-2">3. Saúde mental – psicoterapia</h3>
                         <div className="space-y-2">
                             <Label>Você já realizou ou realiza psicoterapia?</Label>
                             <Controller
@@ -257,9 +261,7 @@ export function FamiliaTransporteSaude() {
                         )}
                     </div>
 
-                    {/* 4. Deficiência */}
                     <div className="space-y-4">
-                        <h3 className="font-semibold text-gray-900 border-b pb-2">4. Deficiência</h3>
                         <div className="space-y-2">
                             <Label>Você possui alguma deficiência, com ou sem laudo médico?</Label>
                             <Controller
@@ -306,9 +308,7 @@ export function FamiliaTransporteSaude() {
                         )}
                     </div>
 
-                    {/* 5. Condições de saúde */}
                     <div className="space-y-4">
-                        <h3 className="font-semibold text-gray-900 border-b pb-2">5. Condições de saúde</h3>
                         <div className="space-y-2">
                             <Label>Possui algum problema de saúde diagnosticado?</Label>
                             <Controller
@@ -332,9 +332,7 @@ export function FamiliaTransporteSaude() {
                         )}
                     </div>
 
-                    {/* 6. Alergias */}
                     <div className="space-y-4">
-                        <h3 className="font-semibold text-gray-900 border-b pb-2">6. Alergias</h3>
                         <div className="space-y-2">
                             <Label>Possui alguma alergia?</Label>
                             <Controller
@@ -358,9 +356,7 @@ export function FamiliaTransporteSaude() {
                         )}
                     </div>
 
-                    {/* 7. Uso de medicamentos */}
                     <div className="space-y-4">
-                        <h3 className="font-semibold text-gray-900 border-b pb-2">7. Uso de medicamentos</h3>
                         <div className="space-y-2">
                             <Label>Faz uso de medicamento contínuo?</Label>
                             <Controller
@@ -384,9 +380,7 @@ export function FamiliaTransporteSaude() {
                         )}
                     </div>
 
-                    {/* 8. Uso de substâncias psicoativas */}
                     <div className="space-y-4">
-                        <h3 className="font-semibold text-gray-900 border-b pb-2">8. Uso de substâncias psicoativas</h3>
                         <div className="space-y-2">
                             <Label>Já fez uso de alguma substância psicoativa? (considerar álcool e cigarro)</Label>
                             <Controller

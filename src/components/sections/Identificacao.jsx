@@ -34,6 +34,16 @@ export function Identificacao() {
                                 />
                             )}
                         />
+                        {watch('entrevistador') === 'Outro' && (
+                            <div className="mt-4 animate-in fade-in">
+                                <Label htmlFor="entrevistador_outro">Qual Nome?</Label>
+                                <Input
+                                    id="entrevistador_outro"
+                                    {...register('entrevistador_outro')}
+                                    placeholder="Nome do assistente"
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <div className="space-y-2">

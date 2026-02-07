@@ -7,10 +7,11 @@ export function StepIndicator() {
     const { currentStep, setCurrentStep, steps } = useFormContext();
 
     const handleJumpToStep = (index) => {
-        // Optional: Add validation check before jumping if needed, 
-        // or allow free navigation since we have soft validation.
         setCurrentStep(index);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const element = document.getElementById(steps[index].id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     };
 
     return (

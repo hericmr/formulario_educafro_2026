@@ -34,6 +34,16 @@ export function GeneroOrientacao() {
                                 />
                             )}
                         />
+                        {watch('genero') === 'Outro' && (
+                            <div className="mt-4 animate-in fade-in">
+                                <Label htmlFor="genero_outro">Especifique o gênero:</Label>
+                                <Input
+                                    id="genero_outro"
+                                    {...register('genero_outro')}
+                                    placeholder="Como você se identifica?"
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <div className="space-y-2 pt-4 border-t border-app-border">

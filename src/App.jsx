@@ -17,29 +17,70 @@ import { CotidianoObjetivo } from '@/components/sections/CotidianoObjetivo';
 import { CheckCircle2 } from 'lucide-react';
 
 function FormContent() {
-    const { handleSubmit, getValues, trigger, formState: { isValid } } = useRHF();
+    const methods = useRHF();
+    const { getValues, watch, trigger, formState: { errors } } = methods;
+    const [isSaving, setIsSaving] = React.useState(false);
+    const [lastSaved, setLastSaved] = React.useState(null);
 
-    const sendToSupabase = async (data) => {
+    // Get or Create UUID for this session
+    const [formUuid] = React.useState(() => {
+        const saved = localStorage.getItem('educafro_form_uuid');
+        if (saved) return saved;
+        const newUuid = crypto.randomUUID();
+        localStorage.setItem('educafro_form_uuid', newUuid);
+        return newUuid;
+    });
+
+    const sendToSupabase = async (data, isFinal = false) => {
         try {
-            console.log('Submitting:', data);
+            setIsSaving(true);
 
-            // Filter out fields that don't exist in Supabase or are UI-only
-            const { idade, ...insertData } = data;
+            // Clean data: replace empty strings with null for Supabase/Postgres compatibility
+            const cleanedData = Object.keys(data).reduce((acc, key) => {
+                const value = data[key];
+                acc[key] = (value === "" || value === undefined) ? null : value;
+                return acc;
+            }, {});
 
-            const { error } = await supabase.from('entrevistas').insert([insertData]);
+            const payload = {
+                ...cleanedData,
+                form_uuid: formUuid,
+                status_formulario: isFinal ? 'completo' : 'rascunho'
+            };
+
+            const { error } = await supabase
+                .from('entrevistas')
+                .upsert([payload], { onConflict: 'form_uuid' });
 
             if (error) {
-                console.error(error);
-                alert(`Erro ao salvar: ${error.message}`);
+                console.error('Save Error:', error);
+                if (isFinal) alert(`Erro ao salvar: ${error.message}`);
                 return;
             }
 
-            alert('Entrevista salva com sucesso!');
-            window.location.reload();
+            setLastSaved(new Date());
+            if (isFinal) {
+                alert('Entrevista salva com sucesso!');
+                localStorage.removeItem('educafro_form_uuid'); // Clear for next one
+                window.location.reload();
+            }
         } catch (e) {
-            alert(`Erro inesperado: ${e.message}`);
+            console.error('Unexpected error:', e);
+        } finally {
+            setIsSaving(false);
         }
     };
+
+    // Auto-save logic
+    React.useEffect(() => {
+        const subscription = watch((value) => {
+            const timer = setTimeout(() => {
+                sendToSupabase(value, false);
+            }, 2000); // 2 seconds debounce
+            return () => clearTimeout(timer);
+        });
+        return () => subscription.unsubscribe();
+    }, [watch, formUuid]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -47,7 +88,7 @@ function FormContent() {
         // Trigger validation to show formatting errors (CPF, Email, etc)
         await trigger();
         const data = getValues();
-        const { formState: { errors } } = useRHF();
+        const currentErrors = methods.formState.errors;
 
         // Find empty fields that are NOT in the error list (since everything is optional in Zod)
         const emptyFields = Object.keys(data).filter(key => {
@@ -55,7 +96,7 @@ function FormContent() {
             return val === undefined || val === null || val === '' || (Array.isArray(val) && val.length === 0);
         });
 
-        const errorFields = Object.keys(errors);
+        const errorFields = Object.keys(currentErrors);
         const allPendingFields = [...new Set([...errorFields, ...emptyFields])];
 
         if (allPendingFields.length > 0) {
@@ -64,7 +105,7 @@ function FormContent() {
                 const label = document.querySelector(`label[for="${key}"]`) ||
                     document.querySelector(`[name="${key}"]`)?.closest('.space-y-2')?.querySelector('label');
                 return label ? label.textContent.replace('*', '').trim() : key;
-            }).slice(0, 10);
+            }).slice(0, 5);
 
             const remaining = allPendingFields.length - fieldNames.length;
             const fieldList = fieldNames.map(name => `• ${name}`).join('\n');
@@ -75,16 +116,65 @@ function FormContent() {
             }
         }
 
-        await sendToSupabase(data);
+        await sendToSupabase(data, true);
     };
 
+    const observer = React.useRef(null);
+    const { setCurrentStep, steps } = useFormContext();
+
+    React.useEffect(() => {
+        const options = {
+            root: null,
+            rootMargin: '-20% 0px -70% 0px',
+            threshold: 0
+        };
+
+        const handleIntersect = (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const index = steps.findIndex(step => step.id === entry.target.id);
+                    if (index !== -1) {
+                        setCurrentStep(index);
+                    }
+                }
+            });
+        };
+
+        observer.current = new IntersectionObserver(handleIntersect, options);
+
+        steps.forEach(step => {
+            const element = document.getElementById(step.id);
+            if (element) observer.current.observe(element);
+        });
+
+        return () => {
+            if (observer.current) {
+                observer.current.disconnect();
+            }
+        };
+    }, [steps, setCurrentStep]);
+
     return (
-        <div className="min-h-screen md:h-screen bg-gray-50 flex flex-col md:flex-row font-sans text-gray-900 md:overflow-hidden">
+        <div className="min-h-screen md:h-screen bg-gray-50 flex flex-col md:flex-row font-sans text-gray-900 md:overflow-hidden relative">
+
+            {/* Auto-save Indicator */}
+            <div className="fixed top-4 right-4 z-[100] pointer-events-none">
+                {isSaving ? (
+                    <div className="bg-white/80 backdrop-blur shadow-sm border border-primary-100 px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-medium text-primary-600 animate-pulse">
+                        <div className="w-2 h-2 bg-primary-500 rounded-full"></div>
+                        Salvando rascunho...
+                    </div>
+                ) : lastSaved ? (
+                    <div className="bg-white/80 backdrop-blur shadow-sm border border-gray-100 px-3 py-1.5 rounded-full flex items-center gap-2 text-[10px] text-gray-400">
+                        Rascunho salvo às {lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                ) : null}
+            </div>
 
             {/* Sidebar (Desktop Only) */}
             <aside className="hidden md:flex flex-col w-80 h-full bg-white border-r border-gray-200 overflow-y-auto">
                 <div className="p-6 border-b border-gray-100 flex flex-col items-center text-center">
-                    <img src="/logo_educafro.png" alt="Educafro" className="h-20 w-auto object-contain mb-4" />
+                    <img src={`${import.meta.env.BASE_URL}logo_educafro.png`} alt="Educafro" className="h-20 w-auto object-contain mb-4" />
                     <h1 className="text-lg font-bold text-gray-900 leading-tight">Formulário Social</h1>
                     <p className="text-sm text-primary-600 font-medium">NAE 2026</p>
                 </div>
@@ -100,7 +190,7 @@ function FormContent() {
             <header className="md:hidden bg-white border-b border-gray-200 sticky top-0 z-30">
                 <div className="px-4 py-3 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <img src="/logo_educafro.png" alt="Educafro" className="h-10 w-auto object-contain" />
+                        <img src={`${import.meta.env.BASE_URL}logo_educafro.png`} alt="Educafro" className="h-10 w-auto object-contain" />
                         <div>
                             <h1 className="text-sm font-bold text-gray-900 leading-tight">Formulário Social</h1>
                             <p className="text-xs text-primary-600 font-medium">NAE 2026</p>
@@ -112,51 +202,51 @@ function FormContent() {
             </header>
 
             {/* Main Content Area - TODAS AS SEÇÕES */}
-            <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-8 md:p-12 overflow-y-auto custom-scrollbar">
+            <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-8 md:p-12 overflow-y-auto custom-scrollbar scroll-smooth">
                 <form onSubmit={handleFormSubmit} className="space-y-8 pb-20 md:pb-0">
 
                     {/* Todas as seções renderizadas de uma vez */}
-                    <div id="identificacao">
+                    <div id="identificacao" className="scroll-mt-10">
                         <Identificacao />
                     </div>
 
-                    <div id="dados-pessoais">
+                    <div id="dados_pessoais" className="scroll-mt-10">
                         <DadosPessoais />
                     </div>
 
-                    <div id="raca-pronomes">
+                    <div id="raca_pronomes" className="scroll-mt-10">
                         <RacaPronomes />
                     </div>
 
-                    <div id="genero-orientacao">
+                    <div id="genero_orientacao" className="scroll-mt-10">
                         <GeneroOrientacao />
                     </div>
 
-                    <div id="escolaridade-familia">
+                    <div id="escolaridade_familia" className="scroll-mt-10">
                         <EscolaridadeFamilia />
                     </div>
 
-                    <div id="vinculo-familiar">
+                    <div id="vinculo_familiar" className="scroll-mt-10">
                         <VinculoFamiliar />
                     </div>
 
-                    <div id="moradia-internet">
+                    <div id="moradia_internet" className="scroll-mt-10">
                         <MoradiaInternet />
                     </div>
 
-                    <div id="trabalho-renda">
+                    <div id="trabalho_renda" className="scroll-mt-10">
                         <TrabalhoRenda />
                     </div>
 
-                    <div id="renda-beneficios">
+                    <div id="renda_beneficios" className="scroll-mt-10">
                         <RendaBeneficios />
                     </div>
 
-                    <div id="familia-transporte-saude">
+                    <div id="familia_transporte_saude" className="scroll-mt-10">
                         <FamiliaTransporteSaude />
                     </div>
 
-                    <div id="cotidiano-objetivo">
+                    <div id="cotidiano_objetivo" className="scroll-mt-10">
                         <CotidianoObjetivo />
                     </div>
 

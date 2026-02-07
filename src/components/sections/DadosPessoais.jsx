@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/Label';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Input } from '@/components/ui/Input';
 import { CIDADES_BAIXADA } from '@/lib/constants';
-import { calculateAge, formatCPF, formatPhone, validateCPF } from '@/lib/utils'; // Assuming validateCPF is exported
+import { formatCPF, formatPhone, validateCPF } from '@/lib/utils'; // Assuming validateCPF is exported
 import { User, MapPin, Calendar, Phone, Mail, FileText } from 'lucide-react';
 
 export function DadosPessoais() {
@@ -13,15 +13,8 @@ export function DadosPessoais() {
     const dob = watch('data_nascimento');
     const cpfValue = watch('cpf');
     const phoneValue = watch('telefone');
-    const nomeSocialDiferente = watch('nome_social_diferente');
 
-    // Auto-calculate age
-    useEffect(() => {
-        if (dob) {
-            const age = calculateAge(dob);
-            setValue('idade', age);
-        }
-    }, [dob, setValue]);
+
 
     // CPF Mask & Validation on Change
     const handleCPFChange = (e) => {
@@ -54,30 +47,39 @@ export function DadosPessoais() {
                 {/* Nome e Identificação */}
                 <div className="space-y-6 mb-6">
                     <div className="space-y-2">
-                        <Label htmlFor="nome_social">Nome completo (nome social) <span className="text-red-500">*</span></Label>
-
+                        <Label htmlFor="nome_completo">Nome completo (se for o caso Nome Social) <span className="text-red-500">*</span></Label>
                         <Input
-                            id="nome_social"
-                            placeholder="Nome completo "
-                            {...register('nome_social')}
-                            error={errors.nome_social?.message}
+                            id="nome_completo"
+                            placeholder="Seu nome completo"
+                            {...register('nome_completo')}
+                            error={errors.nome_completo?.message}
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="nome_social_diferente">Esse nome é o mesmo que consta em seus documentos oficiais? <span className="text-red-500">*</span></Label>
+                        <Label>Esse nome é o mesmo que consta em seus documentos oficiais? <span className="text-red-500">*</span></Label>
                         <Controller
-                            name="nome_social_diferente"
+                            name="nome_mesmo_documento"
                             control={control}
                             render={({ field }) => (
                                 <RadioGroup
                                     {...field}
                                     options={['Sim', 'Não', 'Prefiro não responder']}
-                                    error={errors.nome_social_diferente?.message}
+                                    error={errors.nome_mesmo_documento?.message}
                                     columns={3}
                                 />
                             )}
                         />
+                        {watch('nome_mesmo_documento') === 'Não' && (
+                            <div className="mt-4 animate-in fade-in space-y-2">
+                                <Label htmlFor="nome_civil_documento">Qual o nome que consta em seus documentos oficiais?</Label>
+                                <Input
+                                    id="nome_civil_documento"
+                                    {...register('nome_civil_documento')}
+                                    placeholder="Nome no RG/CPF"
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -128,15 +130,7 @@ export function DadosPessoais() {
                         />
                     </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="idade">Idade</Label>
-                        <Input
-                            id="idade"
-                            readOnly
-                            className="bg-app-surfaceHover cursor-not-allowed"
-                            {...register('idade')}
-                        />
-                    </div>
+
 
                     <div className="space-y-2">
                         <Label htmlFor="cpf">CPF</Label>
@@ -197,6 +191,16 @@ export function DadosPessoais() {
                                 />
                             )}
                         />
+                        {watch('cidade') === 'Outra' && (
+                            <div className="mt-4 animate-in fade-in">
+                                <Label htmlFor="cidade_outra">Qual Cidade?</Label>
+                                <Input
+                                    id="cidade_outra"
+                                    {...register('cidade_outra')}
+                                    placeholder="Especifique a cidade"
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <div className="space-y-2">

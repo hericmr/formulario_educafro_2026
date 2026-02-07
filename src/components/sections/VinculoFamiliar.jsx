@@ -88,6 +88,16 @@ export function VinculoFamiliar() {
                                         />
                                     )}
                                 />
+                                {watch('vinculo_familiar') === 'Outro (por favor, especifique)' && (
+                                    <div className="mt-4 animate-in fade-in">
+                                        <Label htmlFor="vinculo_familiar_outro">Especifique o vínculo:</Label>
+                                        <Input
+                                            id="vinculo_familiar_outro"
+                                            {...register('vinculo_familiar_outro')}
+                                            placeholder="Qual o parentesco?"
+                                        />
+                                    </div>
+                                )}
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="nome_familiar">Nome completo do familiar</Label>

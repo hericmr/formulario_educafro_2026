@@ -47,6 +47,16 @@ export function EscolaridadeFamilia() {
                             />
                         )}
                     />
+                    {watch('escolaridade') === 'Outro' && (
+                        <div className="mt-4 animate-in fade-in">
+                            <Label htmlFor="escolaridade_outro">Especifique a escolaridade:</Label>
+                            <Input
+                                id="escolaridade_outro"
+                                {...register('escolaridade_outro')}
+                                placeholder="Qual?"
+                            />
+                        </div>
+                    )}
 
                     <div className="grid grid-cols-1 gap-4 mt-4">
                         <div>
@@ -73,7 +83,6 @@ export function EscolaridadeFamilia() {
                     <Users2 className="w-6 h-6" />
                     Filiação
                 </h2>
-                <p className="text-gray-600 mb-6 text-sm">Preencha com os dados dos seus pais ou responsáveis.</p>
 
                 {/* Mãe */}
                 <div className="mb-8 pb-8 border-b border-app-border">
@@ -103,6 +112,16 @@ export function EscolaridadeFamilia() {
                                     />
                                 )}
                             />
+                            {watch('escolaridade_mae') === 'Outro' && (
+                                <div className="mt-4 animate-in fade-in">
+                                    <Label htmlFor="escolaridade_mae_outro">Especifique:</Label>
+                                    <Input
+                                        id="escolaridade_mae_outro"
+                                        {...register('escolaridade_mae_outro')}
+                                        placeholder="Qual?"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -134,6 +153,16 @@ export function EscolaridadeFamilia() {
                                     />
                                 )}
                             />
+                            {watch('escolaridade_pai') === 'Outro' && (
+                                <div className="mt-4 animate-in fade-in">
+                                    <Label htmlFor="escolaridade_pai_outro">Especifique:</Label>
+                                    <Input
+                                        id="escolaridade_pai_outro"
+                                        {...register('escolaridade_pai_outro')}
+                                        placeholder="Qual?"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

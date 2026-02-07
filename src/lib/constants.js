@@ -1,6 +1,6 @@
 export const FORM_STEPS = [
     { id: 'identificacao', title: 'Identificação', fields: ['entrevistador', 'data_entrevista'] },
-    { id: 'dados_pessoais', title: 'Dados Pessoais', fields: ['nome_social', 'nome_social_diferente', 'telefone', 'email', 'data_nascimento', 'cpf', 'rg', 'cidade', 'naturalidade', 'endereco', 'bairro', 'estado_civil'] },
+    { id: 'dados_pessoais', title: 'Dados Pessoais', fields: ['nome_completo', 'telefone', 'email', 'data_nascimento', 'cpf', 'rg', 'cidade', 'naturalidade', 'endereco', 'bairro', 'estado_civil'] },
     { id: 'raca_pronomes', title: 'Raça e Cor', fields: ['raca_cor'] },
     { id: 'genero_orientacao', title: 'Gênero e Orientação', fields: ['genero', 'trans_travesti', 'orientacao_sexual'] },
     { id: 'escolaridade_familia', title: 'Escolaridade e Filiação', fields: ['escolaridade', 'nome_mae', 'nome_pai'] },

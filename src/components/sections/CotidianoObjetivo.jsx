@@ -71,7 +71,7 @@ export function CotidianoObjetivo() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label>Como sua mãe se sentiria se você entrasse na faculdade pública em outro estado?</Label>
+                        <Label>Como seus responsáveis se sentiriam se você entrasse na faculdade pública em outro estado?</Label>
                         <Input {...register('objetivo_expectativa')} error={errors.objetivo_expectativa?.message} />
                     </div>
                 </div>
@@ -96,6 +96,16 @@ export function CotidianoObjetivo() {
                             />
                         )}
                     />
+                    {watch('objetivo_educafro') === 'Outro' && (
+                        <div className="mt-4 animate-in fade-in">
+                            <Label htmlFor="objetivo_educafro_outro">Qual o seu objetivo?</Label>
+                            <Input
+                                id="objetivo_educafro_outro"
+                                {...register('objetivo_educafro_outro')}
+                                placeholder="Especifique..."
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <div className="space-y-2">
@@ -122,6 +132,16 @@ export function CotidianoObjetivo() {
                             />
                         )}
                     />
+                    {watch('objetivo_frequencia') === 'Outro' && (
+                        <div className="mt-4 animate-in fade-in">
+                            <Label htmlFor="objetivo_frequencia_outro">Especifique a frequência:</Label>
+                            <Input
+                                id="objetivo_frequencia_outro"
+                                {...register('objetivo_frequencia_outro')}
+                                placeholder="Quais dias?"
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

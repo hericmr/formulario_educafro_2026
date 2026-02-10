@@ -15,14 +15,15 @@ export function Identificacao() {
     }, [setValue]);
 
     return (
-        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="bg-app-surface p-6 rounded-2xl shadow-sm border border-app-border">
-                <h2 className="text-2xl font-bold text-primary-800 mb-4">Identificação da Entrevista</h2>
-                <p className="text-gray-600 mb-6">Preencha os dados de quem está realizando a entrevista.</p>
+        <div className="section-wrapper animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="section-side-tab">
+                <h2 className="section-title">Identificação</h2>
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="section-card">
+                <div className="grid grid-cols-1 md:grid-cols-2 form-grid-spacing">
                     <div className="space-y-2">
-                        <Label htmlFor="entrevistador">Nome da(o) Assistente Social</Label>
+                        <Label htmlFor="entrevistador">Nome(s) da(o)(s) Responsável(is) pela Entrevista</Label>
                         <Controller
                             name="entrevistador"
                             control={control}

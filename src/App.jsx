@@ -40,7 +40,7 @@ function FormContent() {
                 let value = data[key];
 
                 // Special handling for array fields that need to be stored as strings
-                if (key === 'entrevistador' && Array.isArray(value)) {
+                if ((key === 'entrevistador' || key === 'objetivo_educafro') && Array.isArray(value)) {
                     value = value.join(', ');
                 }
 

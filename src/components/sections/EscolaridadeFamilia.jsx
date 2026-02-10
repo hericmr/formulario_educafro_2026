@@ -24,149 +24,152 @@ export function EscolaridadeFamilia() {
     const { register, formState: { errors }, watch, control } = useRHFContext();
 
     return (
-        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="form-question-spacing animate-in fade-in slide-in-from-bottom-4 duration-500">
 
             {/* Section 7: Escolaridade */}
-            <div className="bg-app-surface p-6 rounded-2xl shadow-sm border border-app-border">
-                <h2 className="text-2xl font-bold text-primary-800 mb-4 flex items-center gap-2">
-                    <GraduationCap className="w-6 h-6" />
-                    Escolaridade
-                </h2>
-
-                <div className="space-y-4">
-                    <Label htmlFor="escolaridade">Qual sua escolaridade?</Label>
-                    <Controller
-                        name="escolaridade"
-                        control={control}
-                        render={({ field }) => (
-                            <RadioGroup
-                                {...field}
-                                options={ESCOLARIDADE_OPTIONS}
-                                error={errors.escolaridade?.message}
-                                columns={2}
-                            />
+            <div className="section-wrapper">
+                <div className="section-side-tab">
+                    <h2 className="section-title flex items-center gap-2 justify-end">
+                        Escolaridade
+                    </h2>
+                </div>
+                <div className="section-card">
+                    <div className="form-question-spacing">
+                        <Label htmlFor="escolaridade">Qual sua escolaridade?</Label>
+                        <Controller
+                            name="escolaridade"
+                            control={control}
+                            render={({ field }) => (
+                                <RadioGroup
+                                    {...field}
+                                    options={ESCOLARIDADE_OPTIONS}
+                                    error={errors.escolaridade?.message}
+                                    columns={2}
+                                />
+                            )}
+                        />
+                        {watch('escolaridade') === 'Outro' && (
+                            <div className="mt-4 animate-in fade-in">
+                                <Label htmlFor="escolaridade_outro">Especifique a escolaridade:</Label>
+                                <Input
+                                    id="escolaridade_outro"
+                                    {...register('escolaridade_outro')}
+                                    placeholder="Qual?"
+                                />
+                            </div>
                         )}
-                    />
-                    {watch('escolaridade') === 'Outro' && (
-                        <div className="mt-4 animate-in fade-in">
-                            <Label htmlFor="escolaridade_outro">Especifique a escolaridade:</Label>
-                            <Input
-                                id="escolaridade_outro"
-                                {...register('escolaridade_outro')}
-                                placeholder="Qual?"
-                            />
-                        </div>
-                    )}
 
-                    <div className="grid grid-cols-1 gap-4 mt-4">
-                        <div>
-                            <Label htmlFor="escola_publica_privada">Estudou em escola pública ou particular?</Label>
-                            <Controller
-                                name="escola_publica_privada"
-                                control={control}
-                                render={({ field }) => (
-                                    <RadioGroup
-                                        {...field}
-                                        options={['Sempre Pública', 'Sempre Particular (com bolsa)', 'Sempre Particular (sem bolsa)', 'Mista (Parte Pública / Parte Particular)']}
-                                        columns={2}
-                                    />
-                                )}
-                            />
+                        <div className="grid grid-cols-1 form-grid-spacing mt-4">
+                            <div>
+                                <Label htmlFor="escola_publica_privada">Estudou em escola pública ou particular?</Label>
+                                <Controller
+                                    name="escola_publica_privada"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <RadioGroup
+                                            {...field}
+                                            options={['Sempre Pública', 'Sempre Particular (com bolsa)', 'Sempre Particular (sem bolsa)', 'Mista (Parte Pública / Parte Particular)']}
+                                            columns={2}
+                                        />
+                                    )}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Section 8: Filiação */}
-            <div className="bg-app-surface p-6 rounded-2xl shadow-sm border border-app-border">
-                <h2 className="text-2xl font-bold text-primary-800 mb-4 flex items-center gap-2">
-                    <Users2 className="w-6 h-6" />
-                    Filiação
-                </h2>
-
-                {/* Mãe */}
-                <div className="mb-8 pb-8 border-b border-app-border">
-                    <h3 className="text-lg font-semibold text-pink-600 mb-4 flex items-center gap-2">
-                        <User className="w-4 h-4" /> Mãe
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="md:col-span-1">
-                            <Label htmlFor="nome_mae">Nome Completo</Label>
-                            <Input id="nome_mae" {...register('nome_mae')} error={errors.nome_mae?.message} />
-                        </div>
-                        <div>
-                            <Label htmlFor="profissao_mae">Profissão</Label>
-                            <Input id="profissao_mae" placeholder="Ex: Do Lar, Autônoma..." {...register('profissao_mae')} error={errors.profissao_mae?.message} />
-                        </div>
-                        <div>
-                            <Label htmlFor="escolaridade_mae">Escolaridade</Label>
-                            <Controller
-                                name="escolaridade_mae"
-                                control={control}
-                                render={({ field }) => (
-                                    <RadioGroup
-                                        {...field}
-                                        options={ESCOLARIDADE_OPTIONS}
-                                        error={errors.escolaridade_mae?.message}
-                                        columns={2}
-                                    />
+            <div className="section-wrapper">
+                <div className="section-side-tab">
+                    <h2 className="section-title flex items-center gap-2 justify-end">
+                        Filiação
+                    </h2>
+                </div>
+                <div className="section-card">
+                    {/* Mãe */}
+                    <div className="mb-8 pb-8 border-b border-app-border">
+                        <h3 className="text-lg font-semibold text-pink-600 mb-4 flex items-center gap-2">
+                            <User className="w-4 h-4" /> Mãe
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 form-grid-spacing">
+                            <div className="md:col-span-1">
+                                <Label htmlFor="nome_mae">Nome Completo</Label>
+                                <Input id="nome_mae" {...register('nome_mae')} error={errors.nome_mae?.message} />
+                            </div>
+                            <div>
+                                <Label htmlFor="profissao_mae">Profissão</Label>
+                                <Input id="profissao_mae" placeholder="Ex: Do Lar, Autônoma..." {...register('profissao_mae')} error={errors.profissao_mae?.message} />
+                            </div>
+                            <div>
+                                <Label htmlFor="escolaridade_mae">Escolaridade</Label>
+                                <Controller
+                                    name="escolaridade_mae"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <RadioGroup
+                                            {...field}
+                                            options={ESCOLARIDADE_OPTIONS}
+                                            error={errors.escolaridade_mae?.message}
+                                            columns={2}
+                                        />
+                                    )}
+                                />
+                                {watch('escolaridade_mae') === 'Outro' && (
+                                    <div className="mt-4 animate-in fade-in">
+                                        <Label htmlFor="escolaridade_mae_outro">Especifique:</Label>
+                                        <Input
+                                            id="escolaridade_mae_outro"
+                                            {...register('escolaridade_mae_outro')}
+                                            placeholder="Qual?"
+                                        />
+                                    </div>
                                 )}
-                            />
-                            {watch('escolaridade_mae') === 'Outro' && (
-                                <div className="mt-4 animate-in fade-in">
-                                    <Label htmlFor="escolaridade_mae_outro">Especifique:</Label>
-                                    <Input
-                                        id="escolaridade_mae_outro"
-                                        {...register('escolaridade_mae_outro')}
-                                        placeholder="Qual?"
-                                    />
-                                </div>
-                            )}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Pai */}
+                    <div>
+                        <h3 className="text-lg font-semibold text-blue-600 mb-4 flex items-center gap-2">
+                            <User className="w-4 h-4" /> Pai
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 form-grid-spacing">
+                            <div className="md:col-span-1">
+                                <Label htmlFor="nome_pai">Nome Completo</Label>
+                                <Input id="nome_pai" {...register('nome_pai')} />
+                            </div>
+                            <div>
+                                <Label htmlFor="profissao_pai">Profissão</Label>
+                                <Input id="profissao_pai" {...register('profissao_pai')} />
+                            </div>
+                            <div>
+                                <Label htmlFor="escolaridade_pai">Escolaridade</Label>
+                                <Controller
+                                    name="escolaridade_pai"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <RadioGroup
+                                            {...field}
+                                            options={ESCOLARIDADE_OPTIONS}
+                                            columns={2}
+                                        />
+                                    )}
+                                />
+                                {watch('escolaridade_pai') === 'Outro' && (
+                                    <div className="mt-4 animate-in fade-in">
+                                        <Label htmlFor="escolaridade_pai_outro">Especifique:</Label>
+                                        <Input
+                                            id="escolaridade_pai_outro"
+                                            {...register('escolaridade_pai_outro')}
+                                            placeholder="Qual?"
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                {/* Pai */}
-                <div>
-                    <h3 className="text-lg font-semibold text-blue-600 mb-4 flex items-center gap-2">
-                        <User className="w-4 h-4" /> Pai
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="md:col-span-1">
-                            <Label htmlFor="nome_pai">Nome Completo</Label>
-                            <Input id="nome_pai" {...register('nome_pai')} />
-                        </div>
-                        <div>
-                            <Label htmlFor="profissao_pai">Profissão</Label>
-                            <Input id="profissao_pai" {...register('profissao_pai')} />
-                        </div>
-                        <div>
-                            <Label htmlFor="escolaridade_pai">Escolaridade</Label>
-                            <Controller
-                                name="escolaridade_pai"
-                                control={control}
-                                render={({ field }) => (
-                                    <RadioGroup
-                                        {...field}
-                                        options={ESCOLARIDADE_OPTIONS}
-                                        columns={2}
-                                    />
-                                )}
-                            />
-                            {watch('escolaridade_pai') === 'Outro' && (
-                                <div className="mt-4 animate-in fade-in">
-                                    <Label htmlFor="escolaridade_pai_outro">Especifique:</Label>
-                                    <Input
-                                        id="escolaridade_pai_outro"
-                                        {...register('escolaridade_pai_outro')}
-                                        placeholder="Qual?"
-                                    />
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     );

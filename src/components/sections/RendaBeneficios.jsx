@@ -36,126 +36,130 @@ export function RendaBeneficios() {
     const beneficiosBenefíciosTipo = watch('beneficios_tipo');
 
     return (
-        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="form-question-spacing animate-in fade-in slide-in-from-bottom-4 duration-500">
 
             {/* Section 13: Renda Familiar */}
-            <div className="bg-app-surface p-6 rounded-2xl shadow-sm border border-app-border">
-                <h2 className="text-2xl font-bold text-primary-800 mb-4 flex items-center gap-2">
-                    <DollarSign className="w-6 h-6" />
-                    Renda Familiar
-                </h2>
-
-                <div className="space-y-4">
-                    <Label htmlFor="renda_familiar">Qual a faixa de renda familiar?</Label>
-                    <Controller
-                        name="renda_familiar"
-                        control={control}
-                        render={({ field }) => (
-                            <RadioGroup
-                                {...field}
-                                options={RENDA_RANGES}
-                                error={errors.renda_familiar?.message}
-                                columns={2}
-                            />
+            <div className="section-wrapper">
+                <div className="section-side-tab">
+                    <h2 className="section-title flex items-center gap-2 justify-end">
+                        Renda Familiar
+                    </h2>
+                </div>
+                <div className="section-card">
+                    <div className="form-question-spacing">
+                        <Label htmlFor="renda_familiar">Qual a faixa de renda familiar?</Label>
+                        <Controller
+                            name="renda_familiar"
+                            control={control}
+                            render={({ field }) => (
+                                <RadioGroup
+                                    {...field}
+                                    options={RENDA_RANGES}
+                                    error={errors.renda_familiar?.message}
+                                    columns={2}
+                                />
+                            )}
+                        />
+                        {watch('renda_familiar') === 'Outro' && (
+                            <div className="mt-4 animate-in fade-in">
+                                <Label htmlFor="renda_familiar_outro">Especifique a renda:</Label>
+                                <Input
+                                    id="renda_familiar_outro"
+                                    {...register('renda_familiar_outro')}
+                                    placeholder="Valor ou faixa"
+                                />
+                            </div>
                         )}
-                    />
-                    {watch('renda_familiar') === 'Outro' && (
-                        <div className="mt-4 animate-in fade-in">
-                            <Label htmlFor="renda_familiar_outro">Especifique a renda:</Label>
-                            <Input
-                                id="renda_familiar_outro"
-                                {...register('renda_familiar_outro')}
-                                placeholder="Valor ou faixa"
-                            />
-                        </div>
-                    )}
+                    </div>
                 </div>
             </div>
 
             {/* Section 14: Benefícios Sociais */}
-            <div className="bg-app-surface p-6 rounded-2xl shadow-sm border border-app-border">
-                <h2 className="text-2xl font-bold text-primary-800 mb-4 flex items-center gap-2">
-                    <HandCoins className="w-6 h-6" />
-                    Benefícios Sociais
-                </h2>
-
-                <div className="space-y-6">
-                    <div className="space-y-2">
-                        <Label className="text-base font-semibold">Recebe algum benefício social?</Label>
-                        <Controller
-                            name="beneficios_recebe"
-                            control={control}
-                            render={({ field }) => (
-                                <RadioGroup
-                                    {...field}
-                                    options={['Sim', 'Não']}
-                                    error={errors.beneficios_recebe?.message}
-                                    columns={2}
-                                />
-                            )}
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label>Possui CadÚnico?</Label>
-                        <Controller
-                            name="beneficios_cadunico"
-                            control={control}
-                            render={({ field }) => (
-                                <RadioGroup
-                                    {...field}
-                                    options={['Sim', 'Não']}
-                                    columns={2}
-                                />
-                            )}
-                        />
-                    </div>
-
-                    {recebeBeneficios && (
-                        <div className="space-y-4 p-4 bg-primary-50 rounded-xl border border-primary-100 animate-in fade-in">
-                            <div className="space-y-2">
-                                <Label>Quais benefícios recebe?</Label>
-                                <Controller
-                                    name="beneficios_tipo"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <CheckboxGroup
-                                            {...field}
-                                            options={BENEFICIOS_LIST}
-                                            columns={2}
-                                        />
-                                    )}
-                                />
-                                {watch('beneficios_tipo')?.includes('Outro') && (
-                                    <div className="mt-4 animate-in fade-in">
-                                        <Label htmlFor="beneficios_outro">Especifique o benefício:</Label>
-                                        <Input
-                                            id="beneficios_outro"
-                                            {...register('beneficios_outro')}
-                                            placeholder="Qual?"
-                                        />
-                                    </div>
+            <div className="section-wrapper">
+                <div className="section-side-tab">
+                    <h2 className="section-title flex items-center gap-2 justify-end">
+                        Benefícios Sociais
+                    </h2>
+                </div>
+                <div className="section-card">
+                    <div className="form-question-spacing">
+                        <div className="space-y-2">
+                            <Label className="text-base font-semibold">Recebe algum benefício social?</Label>
+                            <Controller
+                                name="beneficios_recebe"
+                                control={control}
+                                render={({ field }) => (
+                                    <RadioGroup
+                                        {...field}
+                                        options={['Sim', 'Não']}
+                                        error={errors.beneficios_recebe?.message}
+                                        columns={2}
+                                    />
                                 )}
-                            </div>
+                            />
                         </div>
-                    )}
 
-                    <div className="space-y-2 pt-4 border-t border-app-border">
-                        <Label className="text-base font-semibold">A família necessita de cesta básica?</Label>
-                        <Controller
-                            name="cesta_basica"
-                            control={control}
-                            render={({ field }) => (
-                                <RadioGroup
-                                    {...field}
-                                    options={['Sim', 'Não']}
-                                    error={errors.cesta_basica?.message}
-                                    columns={2}
-                                />
-                            )}
-                        />
+                        <div className="space-y-2">
+                            <Label>Possui CadÚnico?</Label>
+                            <Controller
+                                name="beneficios_cadunico"
+                                control={control}
+                                render={({ field }) => (
+                                    <RadioGroup
+                                        {...field}
+                                        options={['Sim', 'Não']}
+                                        columns={2}
+                                    />
+                                )}
+                            />
+                        </div>
+
+                        {recebeBeneficios && (
+                            <div className="form-question-spacing p-4 bg-primary-50 rounded-xl border border-primary-100 animate-in fade-in">
+                                <div className="space-y-2">
+                                    <Label>Quais benefícios recebe?</Label>
+                                    <Controller
+                                        name="beneficios_tipo"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <CheckboxGroup
+                                                {...field}
+                                                options={BENEFICIOS_LIST}
+                                                columns={2}
+                                            />
+                                        )}
+                                    />
+                                    {watch('beneficios_tipo')?.includes('Outro') && (
+                                        <div className="mt-4 animate-in fade-in">
+                                            <Label htmlFor="beneficios_outro">Especifique o benefício:</Label>
+                                            <Input
+                                                id="beneficios_outro"
+                                                {...register('beneficios_outro')}
+                                                placeholder="Qual?"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="space-y-2 pt-4 border-t border-app-border">
+                            <Label className="text-base font-semibold">A família necessita de cesta básica?</Label>
+                            <Controller
+                                name="cesta_basica"
+                                control={control}
+                                render={({ field }) => (
+                                    <RadioGroup
+                                        {...field}
+                                        options={['Sim', 'Não']}
+                                        error={errors.cesta_basica?.message}
+                                        columns={2}
+                                    />
+                                )}
+                            />
+                        </div>
+
                     </div>
-
                 </div>
             </div>
 

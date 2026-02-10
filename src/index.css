@@ -74,6 +74,16 @@
   }
 }
 
+@layer components {
+  .form-question-spacing {
+    @apply space-y-8;
+  }
+
+  .form-grid-spacing {
+    @apply gap-8;
+  }
+}
+
 /* Custom Scrollbar Styles */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
@@ -104,4 +114,27 @@ aside::-webkit-scrollbar,
 aside *::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari and Opera */
+}
+
+/* Section Layout - Side Tab Style */
+.section-wrapper {
+  @apply flex flex-col md:flex-row md:gap-0 relative mb-8;
+}
+
+.section-side-tab {
+  /* On mobile: regular header style */
+  @apply mb-2 pl-1;
+  /* On desktop: vertical tab on the left */
+  @apply md:w-14 md:mb-0 md:pl-0 md:pr-4 md:py-8 md:flex md:flex-col md:items-end md:justify-start;
+}
+
+.section-title {
+  @apply text-xl font-bold text-primary-800 uppercase tracking-widest whitespace-nowrap;
+  /* Rotate for side tab */
+  @apply md:[writing-mode:vertical-rl] md:rotate-180;
+}
+
+.section-card {
+  @apply bg-app-surface p-6 rounded-2xl shadow-sm border border-app-border flex-1;
+  /* Adjust border radius for visual connection if desired, e.g., rounded-tl-none */
 }

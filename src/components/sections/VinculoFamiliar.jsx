@@ -49,62 +49,64 @@ export function VinculoFamiliar() {
     const temFamiliar = watch('familiar_nucleo') === 'Sim';
 
     return (
-        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="form-question-spacing animate-in fade-in slide-in-from-bottom-4 duration-500">
 
-            <div className="bg-app-surface p-6 rounded-2xl shadow-sm border border-app-border">
-                <h2 className="text-2xl font-bold text-primary-800 mb-4 flex items-center gap-2">
-                    <Users2 className="w-6 h-6" />
-                    Vínculo Familiar no Núcleo
-                </h2>
-
-                <div className="space-y-4">
-                    <Label className="text-base font-semibold text-gray-800">Possui familiar estudando/matriculado no núcleo?</Label>
-                    <Controller
-                        name="familiar_nucleo"
-                        control={control}
-                        render={({ field }) => (
-                            <RadioGroup
-                                {...field}
-                                options={['Sim', 'Não']}
-                                error={errors.familiar_nucleo?.message}
-                                columns={2}
-                            />
-                        )}
-                    />
-
-                    {temFamiliar && (
-                        <div className="space-y-4 p-4 bg-primary-50 rounded-xl border border-primary-100 animate-in fade-in slide-in-from-top-2">
-                            <div className="space-y-2">
-                                <Label htmlFor="vinculo_familiar">Qual o vínculo?</Label>
-                                <Controller
-                                    name="vinculo_familiar"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <RadioGroup
-                                            {...field}
-                                            options={VINCULO_OPTIONS}
-                                            error={errors.vinculo_familiar?.message}
-                                            columns={2}
-                                        />
-                                    )}
+            <div className="section-wrapper">
+                <div className="section-side-tab">
+                    <h2 className="section-title flex items-center gap-2 justify-end">
+                        Vínculo Familiar no Núcleo
+                    </h2>
+                </div>
+                <div className="section-card">
+                    <div className="form-question-spacing">
+                        <Label className="text-base font-semibold text-gray-800">Possui familiar estudando/matriculado no núcleo?</Label>
+                        <Controller
+                            name="familiar_nucleo"
+                            control={control}
+                            render={({ field }) => (
+                                <RadioGroup
+                                    {...field}
+                                    options={['Sim', 'Não']}
+                                    error={errors.familiar_nucleo?.message}
+                                    columns={2}
                                 />
-                                {watch('vinculo_familiar') === 'Outro (por favor, especifique)' && (
-                                    <div className="mt-4 animate-in fade-in">
-                                        <Label htmlFor="vinculo_familiar_outro">Especifique o vínculo:</Label>
-                                        <Input
-                                            id="vinculo_familiar_outro"
-                                            {...register('vinculo_familiar_outro')}
-                                            placeholder="Qual o parentesco?"
-                                        />
-                                    </div>
-                                )}
+                            )}
+                        />
+
+                        {temFamiliar && (
+                            <div className="form-question-spacing p-4 bg-primary-50 rounded-xl border border-primary-100 animate-in fade-in slide-in-from-top-2">
+                                <div className="space-y-2">
+                                    <Label htmlFor="vinculo_familiar">Qual o vínculo?</Label>
+                                    <Controller
+                                        name="vinculo_familiar"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <RadioGroup
+                                                {...field}
+                                                options={VINCULO_OPTIONS}
+                                                error={errors.vinculo_familiar?.message}
+                                                columns={2}
+                                            />
+                                        )}
+                                    />
+                                    {watch('vinculo_familiar') === 'Outro (por favor, especifique)' && (
+                                        <div className="mt-4 animate-in fade-in">
+                                            <Label htmlFor="vinculo_familiar_outro">Especifique o vínculo:</Label>
+                                            <Input
+                                                id="vinculo_familiar_outro"
+                                                {...register('vinculo_familiar_outro')}
+                                                placeholder="Qual o parentesco?"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="nome_familiar">Nome completo do familiar</Label>
+                                    <Input id="nome_familiar" {...register('nome_familiar')} error={errors.nome_familiar?.message} />
+                                </div>
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="nome_familiar">Nome completo do familiar</Label>
-                                <Input id="nome_familiar" {...register('nome_familiar')} error={errors.nome_familiar?.message} />
-                            </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

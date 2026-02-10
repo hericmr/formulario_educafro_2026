@@ -5,32 +5,9 @@ import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Input } from '@/components/ui/Input';
 import { DollarSign, HandCoins } from 'lucide-react';
 import { CheckboxGroup } from '@/components/ui/CheckboxGroup';
+import { RENDA_FAMILIAR, BENEFICIOS_LIST } from '@/constants/options';
 
-const RENDA_RANGES = [
-    'Até 300,00',
-    'De R$ 301,00 a R$ 500,00',
-    'De R$ 501,00 a R$ 800,00',
-    'De R$ 801,00 a R$ 1.045,00',
-    'De R$ 1.046,00 R$ 2080,00',
-    'De R$ 2081,00 a R$ 3.120,00',
-    'De R$ 3.120,00 a R$ 4.160,00',
-    'De R$ 4.161,00 a 5.200,00',
-    'Acima de R$ 5.201,00',
-    'Outro'
-];
-
-const BENEFICIOS_LIST = [
-    'Benefício de Prestação Continuada (BPC)',
-    'Programa Bolsa Família (PBF)',
-    'Programa Nossa Família (PNF)',
-    'Programa de Valorização ao Jovem (PVJ)',
-    'Viva Leite',
-    'Ação Jovem',
-    'Renda Cidadã',
-    'Outro'
-];
-
-export function RendaBeneficios() {
+export const RendaBeneficios = React.memo(function RendaBeneficios() {
     const { register, formState: { errors }, watch, setValue, control } = useRHFContext();
     const recebeBeneficios = watch('beneficios_recebe') === 'Sim';
     const beneficiosBenefíciosTipo = watch('beneficios_tipo');
@@ -54,7 +31,7 @@ export function RendaBeneficios() {
                             render={({ field }) => (
                                 <RadioGroup
                                     {...field}
-                                    options={RENDA_RANGES}
+                                    options={RENDA_FAMILIAR}
                                     error={errors.renda_familiar?.message}
                                     columns={2}
                                 />
@@ -165,4 +142,4 @@ export function RendaBeneficios() {
 
         </div>
     );
-}
+});

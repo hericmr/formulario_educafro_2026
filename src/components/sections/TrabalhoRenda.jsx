@@ -4,8 +4,9 @@ import { Label } from '@/components/ui/Label';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Input } from '@/components/ui/Input';
 import { Briefcase, AlertTriangle } from 'lucide-react';
+import { VINCULO_TRABALHO, USO_DINHEIRO } from '@/constants/options';
 
-export function TrabalhoRenda() {
+export const TrabalhoRenda = React.memo(function TrabalhoRenda() {
     const { register, formState: { errors }, watch, control } = useRHFContext();
     const trabalhouSemana = watch('trabalho_renda_semana');
     const ajudaFamiliar = watch('trabalho_ajuda_familiar');
@@ -82,7 +83,7 @@ export function TrabalhoRenda() {
                                         render={({ field }) => (
                                             <RadioGroup
                                                 {...field}
-                                                options={['Estágio/Bolsa', 'Registrado CLT', 'Registrado PJ', 'Autônomo', 'Outro']}
+                                                options={VINCULO_TRABALHO}
                                                 error={errors.trabalho_vinculo?.message}
                                                 columns={2}
                                             />
@@ -108,7 +109,7 @@ export function TrabalhoRenda() {
                                         <Input type="time" {...register('trabalho_horario_fim')} className="w-32" />
                                     </div>
                                     {isNightShift() && (
-                                        <div className="mt-2 flex items-center gap-2 text-amber-600 bg-amber-50 p-2 rounded-lg text-sm border border-amber-200">
+                                        <div className="mt-2 flex items-center gap-2 text-secondary-700 bg-secondary-50 p-2 rounded-lg text-sm border border-secondary-200">
                                             <AlertTriangle className="w-4 h-4" />
                                             <span>Atenção: Trabalho noturno identificado (22h - 5h).</span>
                                         </div>
@@ -124,7 +125,7 @@ export function TrabalhoRenda() {
                                         render={({ field }) => (
                                             <RadioGroup
                                                 {...field}
-                                                options={['Gastos pessoais', 'Estudos', 'Despesas da casa', 'Principal responsável pelo sustento da casa.']}
+                                                options={USO_DINHEIRO}
                                                 error={errors.trabalho_uso_dinheiro?.message}
                                                 columns={2}
                                             />
@@ -139,4 +140,4 @@ export function TrabalhoRenda() {
             </div>
         </div>
     );
-}
+});

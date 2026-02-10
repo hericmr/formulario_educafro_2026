@@ -3,8 +3,9 @@ import { useFormContext as useRHFContext, Controller } from 'react-hook-form';
 import { Label } from '@/components/ui/Label';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Users } from 'lucide-react';
+import { RACA_COR } from '@/constants/options';
 
-export function RacaPronomes() {
+export const RacaPronomes = React.memo(function RacaPronomes() {
     const { control, formState: { errors } } = useRHFContext();
 
     return (
@@ -27,7 +28,7 @@ export function RacaPronomes() {
                                 render={({ field }) => (
                                     <RadioGroup
                                         {...field}
-                                        options={['Preto/a/e', 'Pardo/a/e', 'Branco/a/e', 'Amarelo/a/e', 'Indígena']}
+                                        options={RACA_COR}
                                         error={errors.raca_cor?.message}
                                         columns={2}
                                     />
@@ -39,4 +40,4 @@ export function RacaPronomes() {
             </div>
         </div>
     );
-}
+});

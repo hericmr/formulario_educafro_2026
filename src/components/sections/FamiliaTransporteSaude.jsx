@@ -4,10 +4,10 @@ import { Label } from '@/components/ui/Label';
 import { Input } from '@/components/ui/Input';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Baby, Car, Stethoscope } from 'lucide-react';
-import { SERVICOS_SUS, TIPO_SANGUINEO } from '@/lib/constants';
+import { SERVICOS_SUS, TIPO_SANGUINEO, FILHOS_QTY, VEICULO_PROPRIO, MEIO_TRANSPORTE, AUXILIO_TRANSPORTE, PLANO_SAUDE, SAUDE_PSICOTERAPIA } from '@/constants/options';
 import { CheckboxGroup } from '@/components/ui/CheckboxGroup';
 
-export function FamiliaTransporteSaude() {
+export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude() {
     const { register, formState: { errors }, watch, setValue, control } = useRHFContext();
     const saudePlano = watch('saude_plano');
     const saudeServicos = watch('saude_servicos');
@@ -40,7 +40,7 @@ export function FamiliaTransporteSaude() {
                                     render={({ field }) => (
                                         <RadioGroup
                                             {...field}
-                                            options={['Não', 'Sim (1)', 'Sim (2)', 'Sim (3 ou mais)']}
+                                            options={FILHOS_QTY}
                                             error={errors.filhos_tem?.message}
                                             columns={2}
                                         />
@@ -97,7 +97,7 @@ export function FamiliaTransporteSaude() {
                                 render={({ field }) => (
                                     <RadioGroup
                                         {...field}
-                                        options={['Não', 'Carro', 'Moto', 'Bicicleta']}
+                                        options={VEICULO_PROPRIO}
                                         error={errors.transporte_veiculo?.message}
                                         columns={4}
                                     />
@@ -113,16 +113,7 @@ export function FamiliaTransporteSaude() {
                                 render={({ field }) => (
                                     <RadioGroup
                                         {...field}
-                                        options={[
-                                            'Transporte público (ônibus, VLT)',
-                                            'Carro próprio',
-                                            'Carona de amigos/familiares',
-                                            'Bicicleta',
-                                            'Caminhada',
-                                            'Motocicleta',
-                                            'Serviço de transporte por aplicativo (Uber, 99, etc.)',
-                                            'Outro'
-                                        ]}
+                                        options={MEIO_TRANSPORTE}
                                         error={errors.transporte_meio?.message}
                                         columns={2}
                                     />
@@ -148,7 +139,7 @@ export function FamiliaTransporteSaude() {
                                 render={({ field }) => (
                                     <RadioGroup
                                         {...field}
-                                        options={['Sim', 'Não', 'Talvez']}
+                                        options={AUXILIO_TRANSPORTE}
                                         error={errors.transporte_auxilio?.message}
                                         columns={3}
                                     />
@@ -177,7 +168,7 @@ export function FamiliaTransporteSaude() {
                                     render={({ field }) => (
                                         <RadioGroup
                                             {...field}
-                                            options={['Apenas SUS', 'Apenas plano de saúde', 'Uso os dois']}
+                                            options={PLANO_SAUDE}
                                             error={errors.saude_plano?.message}
                                             columns={3}
                                         />
@@ -200,7 +191,7 @@ export function FamiliaTransporteSaude() {
                                             />
                                         )}
                                     />
-                                    {errors.saude_servicos && <p className="text-red-500 text-sm mt-1">{errors.saude_servicos.message}</p>}
+                                    {errors.saude_servicos && <p className="text-error text-sm mt-1">{errors.saude_servicos.message}</p>}
 
                                     {saudeServicos?.includes('Outro') && (
                                         <div className="mt-2">
@@ -239,7 +230,7 @@ export function FamiliaTransporteSaude() {
                                     render={({ field }) => (
                                         <RadioGroup
                                             {...field}
-                                            options={['Sim', 'Não', 'Outro']}
+                                            options={SAUDE_PSICOTERAPIA}
                                             error={errors.saude_psicoterapia?.message}
                                             columns={3}
                                         />
@@ -415,4 +406,4 @@ export function FamiliaTransporteSaude() {
 
         </div>
     );
-}
+});

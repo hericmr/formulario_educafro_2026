@@ -4,8 +4,9 @@ import { Label } from '@/components/ui/Label';
 import { Input } from '@/components/ui/Input';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Flag, Heart } from 'lucide-react';
+import { GENERO, ORIENTACAO_SEXUAL } from '@/constants/options';
 
-export function GeneroOrientacao() {
+export const GeneroOrientacao = React.memo(function GeneroOrientacao() {
     const { register, formState: { errors }, watch, control } = useRHFContext();
     const orientacao = watch('orientacao_sexual');
 
@@ -29,7 +30,7 @@ export function GeneroOrientacao() {
                                 render={({ field }) => (
                                     <RadioGroup
                                         {...field}
-                                        options={['Feminina', 'Masculina', 'Não binárie', 'Outro']}
+                                        options={GENERO}
                                         error={errors.genero?.message}
                                         columns={2}
                                     />
@@ -75,6 +76,7 @@ export function GeneroOrientacao() {
                 </div>
                 <div className="section-card">
                     <div className="form-question-spacing">
+                        <Label className="text-base font-semibold text-gray-800">2. Qual sua orientação sexual?</Label>
                         <Label className="text-base text-gray-600 font-normal block mb-2">(Termo relativo às relações afetivo-sexuais)</Label>
                         <Controller
                             name="orientacao_sexual"
@@ -82,7 +84,7 @@ export function GeneroOrientacao() {
                             render={({ field }) => (
                                 <RadioGroup
                                     {...field}
-                                    options={['Lésbica', 'Gay', 'Bissexual', 'Heterossexual', 'Outra', 'Prefiro não declarar']}
+                                    options={ORIENTACAO_SEXUAL}
                                     error={errors.orientacao_sexual?.message}
                                     columns={2}
                                 />
@@ -104,4 +106,4 @@ export function GeneroOrientacao() {
             </div>
         </div>
     );
-}
+});

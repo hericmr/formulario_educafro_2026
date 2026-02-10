@@ -1,155 +1,16 @@
 export const FORM_STEPS = [
-    { id: 'identificacao', title: 'Identificação', fields: ['entrevistador', 'data_entrevista'] },
-    { id: 'dados_pessoais', title: 'Dados Pessoais', fields: ['nome_completo', 'telefone', 'email', 'data_nascimento', 'cpf', 'rg', 'cidade', 'naturalidade', 'endereco', 'bairro', 'estado_civil'] },
+    { id: 'identificacao', title: 'Identificação', fields: ['entrevistador', 'entrevistador_outro', 'data_entrevista'] },
+    { id: 'dados_pessoais', title: 'Dados Pessoais', fields: ['nome_completo', 'telefone', 'email', 'data_nascimento', 'cpf', 'rg', 'cidade', 'cidade_outra', 'naturalidade', 'endereco', 'bairro', 'estado_civil'] },
     { id: 'raca_pronomes', title: 'Raça e Cor', fields: ['raca_cor'] },
-    { id: 'genero_orientacao', title: 'Gênero e Orientação', fields: ['genero', 'trans_travesti', 'orientacao_sexual'] },
-    { id: 'escolaridade_familia', title: 'Escolaridade e Filiação', fields: ['escolaridade', 'nome_mae', 'nome_pai'] },
-    { id: 'vinculo_familiar', title: 'Vínculo Familiar', fields: ['familiar_nucleo'] },
-    { id: 'moradia_internet', title: 'Moradia e Internet', fields: ['moradia_condicao', 'moradia_tipo', 'internet_tem'] },
-    { id: 'trabalho_renda', title: 'Trabalho e Atividade', fields: ['trabalho_renda_semana', 'trabalho_ajuda_familiar'] },
-    { id: 'renda_beneficios', title: 'Renda e Benefícios', fields: ['renda_familiar', 'beneficios_recebe', 'cesta_basica'] },
-    { id: 'familia_transporte_saude', title: 'Família, Transporte e Saúde', fields: ['filhos_tem', 'transporte_veiculo', 'transporte_meio', 'saude_plano', 'saude_servicos', 'saude_tipo_sanguineo', 'saude_psicoterapia', 'saude_deficiencia', 'saude_problemas', 'saude_alergias', 'saude_medicamentos', 'saude_substancias'] },
-    { id: 'cotidiano_objetivo', title: 'Cotidiano e Objetivos', fields: ['cotidiano_mora_com', 'cotidiano_mora_com_quem', 'cotidiano_relacao', 'objetivo_educafro'] },
+    { id: 'genero_orientacao', title: 'Gênero e Orientação', fields: ['genero', 'genero_outro', 'trans_travesti', 'orientacao_sexual', 'orientacao_sexual_outra'] },
+    { id: 'escolaridade_familia', title: 'Escolaridade e Filiação', fields: ['escolaridade', 'escolaridade_outro', 'escola_publica_privada', 'nome_mae', 'profissao_mae', 'escolaridade_mae', 'escolaridade_mae_outro', 'nome_pai', 'profissao_pai', 'escolaridade_pai', 'escolaridade_pai_outro'] },
+    { id: 'vinculo_familiar', title: 'Vínculo Familiar', fields: ['familiar_nucleo', 'vinculo_familiar', 'nome_familiar'] },
+    { id: 'moradia_internet', title: 'Moradia e Internet', fields: ['moradia_condicao', 'moradia_condicao_outro', 'moradia_tipo', 'moradia_tipo_outro', 'internet_tem', 'internet_tipo', 'internet_tipo_outro', 'internet_sinal', 'internet_sinal_outro'] },
+    { id: 'trabalho_renda', title: 'Trabalho e Atividade', fields: ['trabalho_renda_semana', 'trabalho_ajuda_familiar', 'trabalho_vinculo', 'trabalho_vinculo_outro', 'trabalho_horario_inicio', 'trabalho_horario_fim', 'trabalho_uso_dinheiro'] },
+    { id: 'renda_beneficios', title: 'Renda e Benefícios', fields: ['renda_familiar', 'renda_familiar_outro', 'beneficios_recebe', 'beneficios_cadunico', 'beneficios_tipo', 'beneficios_outro', 'cesta_basica'] },
+    { id: 'familia_transporte_saude', title: 'Família, Transporte e Saúde', fields: ['filhos_tem', 'pensao_paga', 'pensao_recebe', 'transporte_veiculo', 'transporte_meio', 'transporte_meio_outro', 'transporte_auxilio', 'saude_plano', 'saude_servicos', 'saude_servicos_outro', 'saude_tipo_sanguineo', 'saude_psicoterapia', 'saude_psicoterapia_outro', 'saude_psicoterapia_tempo', 'saude_psicoterapia_encerramento', 'saude_deficiencia', 'saude_deficiencia_qual', 'saude_familiar_deficiencia', 'saude_familia_deficiencia_qual', 'saude_problemas', 'saude_problemas_qual', 'saude_alergias', 'saude_alergias_qual', 'saude_medicamentos', 'saude_medicamentos_qual', 'saude_substancias', 'saude_substancias_qual'] },
+    { id: 'cotidiano_objetivo', title: 'Cotidiano e Objetivos', fields: ['cotidiano_mora_com', 'cotidiano_mora_com_quem', 'cotidiano_relacao', 'cotidiano_historico', 'objetivo_curso', 'objetivo_expectativa', 'objetivo_educafro', 'objetivo_educafro_outro', 'objetivo_temas', 'objetivo_frequencia', 'objetivo_frequencia_outro'] },
 ];
 
-export const ASSISTENTES_SOCIAIS = [
-    'Ana Lucia Fernandes',
-    'Leticia Yumy',
-    'Marcel Vaques',
-    'Héric Moura',
-    'Luzinete Reis',
-    'Outro'
-];
 
-export const CIDADES_BAIXADA = [
-    'Santos',
-    'São Vicente',
-    'Guarujá',
-    'Praia Grande',
-    'Cubatão',
-    'Bertioga',
-    'Itanhaém',
-    'Mongaguá',
-    'Peruíbe',
-    'Outra'
-];
 
-export const ESTADO_CIVIL = [
-    'Solteiro(a)',
-    'Casado(a)',
-    'Divorciado(a)',
-    'Viúvo(a)',
-    'União Estável'
-];
-
-export const RACA_COR = [
-    'Preto/a/e',
-    'Pardo/a/e',
-    'Branco/a/e',
-    'Amarelo/a/e',
-    'Indígena'
-];
-
-export const GENERO = [
-    'Feminina',
-    'Masculina',
-    'Não binárie',
-    'Outro'
-];
-
-export const ORIENTACAO_SEXUAL = [
-    'Lésbica',
-    'Gay',
-    'Bissexual',
-    'Heterossexual',
-    'Outra',
-    'Prefiro não declarar'
-];
-
-export const ESCOLARIDADE_OPTIONS = [
-    'Não frequentou a escola',
-    'Ensino Fundamental incompleto',
-    'Ensino Fundamental completo',
-    'Ensino Médio incompleto',
-    'Ensino Médio Completo',
-    'Ensino superior incompleto',
-    'Ensino superior completo',
-    'Pós-graduação - Especialização',
-    'Pós-graduação - Mestrado',
-    'Pós-graduação - Doutorado',
-    'Outro',
-    'Prefiro não dizer'
-];
-
-export const ESCOLA_ORIGEM = [
-    'Sempre Pública',
-    'Sempre Particular (com bolsa)',
-    'Sempre Particular (sem bolsa)',
-    'Mista (Parte Pública / Parte Particular)'
-];
-
-export const VINCULO_FAMILIAR = [
-    'Mãe', 'Pai', 'Mãe adotiva', 'Pai adotivo',
-    'Madrasta', 'Padrasto',
-    'Irmão', 'Irmã', 'Meio-irmão', 'Meia-irmã', 'Irmão adotivo', 'Irmã adotiva',
-    'Cônjuge', 'Companheiro(a)',
-    'Sogra', 'Genro', 'Nora',
-    'Filho', 'Filha', 'Neto', 'Neta', 'Bisneto', 'Bisneta',
-    'Avô', 'Avó', 'Tio', 'Tia', 'Primo', 'Prima',
-    'Tutor(a)', 'Guardião(ã)',
-    'Parente distante', 'Cunhado(a)',
-    'Outro (por favor, especifique)',
-    'Não tenho vínculo familiar relevante',
-    'Não'
-];
-
-export const CONDICAO_MORADIA = [
-    'Própria',
-    'Alugada',
-    'Cedida',
-    'Outro'
-];
-
-export const TIPO_CONSTRUCAO = [
-    'Alvenaria',
-    'Madeira',
-    'Mista',
-    'Outro'
-];
-
-export const RENDA_FAMILIAR = [
-    'Até 300,00',
-    'De R$ 301,00 a R$ 500,00',
-    'De R$ 501,00 a R$ 800,00',
-    'De R$ 801,00 a R$ 1.045,00',
-    'De R$ 1.046,00 R$ 2080,00',
-    'De R$ 2081,00 a R$ 3.120,00',
-    'De R$ 3.120,00 a R$ 4.160,00',
-    'De R$ 4.161,00 a 5.200,00',
-    'Acima de R$ 5.201,00',
-    'Outro'
-];
-
-export const SERVICOS_SUS = [
-    'UPA – Unidade de Pronto Atendimento',
-    'UBS – Unidade Básica de Saúde',
-    'AME – Ambulatório Médico de Especialidades',
-    'CAPS – Centro de Atenção Psicossocial',
-    'CAPS I',
-    'CAPS AD',
-    'SECRAIDS / CTA – Centro de Testagem e Aconselhamento',
-    'SEAMBESP – Seção Ambulatorial de Especialidades',
-    'PAIVAS – Programa de Atenção Integral às Vítimas de Violência Sexual',
-    'Instituto da Mulher e Gestante',
-    'NAPS',
-    'Outro'
-];
-
-export const TIPO_SANGUINEO = [
-    'A+', 'A-',
-    'B+', 'B-',
-    'AB+', 'AB-',
-    'O+', 'O-',
-    'Não sei',
-    'Prefiro não informar'
-];

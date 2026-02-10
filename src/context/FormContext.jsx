@@ -13,8 +13,6 @@ const baseSchema = z.object({
 
     // Section 2
     nome_completo: z.string().optional(),
-    nome_mesmo_documento: z.string().optional(),
-    nome_civil_documento: z.string().optional(),
     telefone: z.string().optional().refine((val) => !val || val.length >= 14, 'Telefone incompleto'),
     email: z.string().optional().refine((val) => !val || /^\S+@\S+\.\S+$/.test(val), 'E-mail inválido'),
     data_nascimento: z.string().optional().refine((date) => !date || new Date(date) <= new Date(), 'Data não pode ser futura'),

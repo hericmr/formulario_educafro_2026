@@ -5,22 +5,9 @@ import { Input } from '@/components/ui/Input';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { GraduationCap, Users2, User } from 'lucide-react';
 
-const ESCOLARIDADE_OPTIONS = [
-    'Não frequentou a escola',
-    'Ensino Fundamental incompleto',
-    'Ensino Fundamental completo',
-    'Ensino Médio incompleto',
-    'Ensino Médio Completo',
-    'Ensino superior incompleto',
-    'Ensino superior completo',
-    'Pós-graduação - Especialização',
-    'Pós-graduação - Mestrado',
-    'Pós-graduação - Doutorado',
-    'Outro',
-    'Prefiro não dizer'
-];
+import { ESCOLARIDADE_OPTIONS, ESCOLA_ORIGEM } from '@/constants/options';
 
-export function EscolaridadeFamilia() {
+export const EscolaridadeFamilia = React.memo(function EscolaridadeFamilia() {
     const { register, formState: { errors }, watch, control } = useRHFContext();
 
     return (
@@ -68,7 +55,7 @@ export function EscolaridadeFamilia() {
                                     render={({ field }) => (
                                         <RadioGroup
                                             {...field}
-                                            options={['Sempre Pública', 'Sempre Particular (com bolsa)', 'Sempre Particular (sem bolsa)', 'Mista (Parte Pública / Parte Particular)']}
+                                            options={ESCOLA_ORIGEM}
                                             columns={2}
                                         />
                                     )}
@@ -89,7 +76,7 @@ export function EscolaridadeFamilia() {
                 <div className="section-card">
                     {/* Mãe */}
                     <div className="mb-8 pb-8 border-b border-app-border">
-                        <h3 className="text-lg font-semibold text-pink-600 mb-4 flex items-center gap-2">
+                        <h3 className="text-lg font-semibold text-primary-700 mb-4 flex items-center gap-2">
                             <User className="w-4 h-4" /> Mãe
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 form-grid-spacing">
@@ -131,7 +118,7 @@ export function EscolaridadeFamilia() {
 
                     {/* Pai */}
                     <div>
-                        <h3 className="text-lg font-semibold text-blue-600 mb-4 flex items-center gap-2">
+                        <h3 className="text-lg font-semibold text-secondary-700 mb-4 flex items-center gap-2">
                             <User className="w-4 h-4" /> Pai
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 form-grid-spacing">
@@ -173,4 +160,4 @@ export function EscolaridadeFamilia() {
             </div>
         </div>
     );
-}
+});

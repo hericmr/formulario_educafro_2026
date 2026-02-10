@@ -3,6 +3,8 @@ import { useFormContext } from '@/context/FormContext';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
 
+import { ProgressBar } from '@/components/ui/ProgressBar';
+
 export function StepIndicator() {
     const { currentStep, setCurrentStep, steps } = useFormContext();
 
@@ -68,27 +70,31 @@ export function StepIndicator() {
             </div>
 
             {/* Mobile / Simple View */}
-            <div className="md:hidden flex items-center justify-between py-2 px-4 bg-white border-b border-gray-100">
-                <button
-                    disabled={currentStep === 0}
-                    onClick={() => handleJumpToStep(currentStep - 1)}
-                    className="text-sm font-medium text-gray-500 disabled:opacity-30 disabled:cursor-not-allowed hover:text-primary-600"
-                >
-                    Anterior
-                </button>
+            <div className="md:hidden flex flex-col w-full bg-white border-b border-gray-100 sticky top-[60px] z-20">
+                <div className="flex items-center justify-between py-2 px-4">
+                    <button
+                        disabled={currentStep === 0}
+                        onClick={() => handleJumpToStep(currentStep - 1)}
+                        className="text-sm font-medium text-gray-500 disabled:opacity-30 disabled:cursor-not-allowed hover:text-primary-600"
+                    >
+                        Anterior
+                    </button>
 
-                <div className="flex flex-col items-center">
-                    <span className="text-xs font-semibold text-primary-600 uppercase tracking-wider">Passo {currentStep + 1} de {steps.length}</span>
-                    <span className="text-sm font-bold text-gray-800">{steps[currentStep].title}</span>
+                    <div className="flex flex-col items-center">
+                        <span className="text-xs font-semibold text-primary-600 uppercase tracking-wider">Passo {currentStep + 1} de {steps.length}</span>
+                        <span className="text-sm font-bold text-gray-800">{steps[currentStep].title}</span>
+                    </div>
+
+                    <button
+                        disabled={currentStep === steps.length - 1}
+                        onClick={() => handleJumpToStep(currentStep + 1)}
+                        className="text-sm font-medium text-primary-600 disabled:opacity-30 disabled:cursor-not-allowed hover:text-primary-700"
+                    >
+                        Próximo
+                    </button>
                 </div>
-
-                <button
-                    disabled={currentStep === steps.length - 1}
-                    onClick={() => handleJumpToStep(currentStep + 1)}
-                    className="text-sm font-medium text-primary-600 disabled:opacity-30 disabled:cursor-not-allowed hover:text-primary-700"
-                >
-                    Próximo
-                </button>
+                {/* Progress Bar */}
+                <ProgressBar progress={((currentStep + 1) / steps.length) * 100} className="rounded-none h-1" />
             </div>
         </nav>
     );

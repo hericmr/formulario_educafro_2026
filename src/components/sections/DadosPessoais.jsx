@@ -3,11 +3,11 @@ import { useFormContext as useRHFContext, Controller } from 'react-hook-form';
 import { Label } from '@/components/ui/Label';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Input } from '@/components/ui/Input';
-import { CIDADES_BAIXADA } from '@/lib/constants';
+import { CIDADES_BAIXADA, ESTADO_CIVIL } from '@/constants/options';
 import { formatCPF, formatPhone, validateCPF } from '@/lib/utils'; // Assuming validateCPF is exported
 import { User, MapPin, Calendar, Phone, Mail, FileText } from 'lucide-react';
 
-export function DadosPessoais() {
+export const DadosPessoais = React.memo(function DadosPessoais() {
     const { register, formState: { errors }, watch, setValue, setError, clearErrors, control } = useRHFContext();
 
     const dob = watch('data_nascimento');
@@ -48,40 +48,16 @@ export function DadosPessoais() {
                     {/* Nome e Identificação */}
                     <div className="form-question-spacing mb-6">
                         <div className="space-y-2">
-                            <Label htmlFor="nome_completo">Nome completo (se for o caso Nome Social) <span className="text-red-500">*</span></Label>
+                            <Label htmlFor="nome_completo">Nome completo (Nome Social deve vir aqui se for o caso) <span className="text-error">*</span></Label>
                             <Input
                                 id="nome_completo"
-                                placeholder="Seu nome completo"
+                                placeholder="Nome completo"
                                 {...register('nome_completo')}
                                 error={errors.nome_completo?.message}
                             />
                         </div>
 
-                        <div className="space-y-2">
-                            <Label>Esse nome é o mesmo que consta em seus documentos oficiais? <span className="text-red-500">*</span></Label>
-                            <Controller
-                                name="nome_mesmo_documento"
-                                control={control}
-                                render={({ field }) => (
-                                    <RadioGroup
-                                        {...field}
-                                        options={['Sim', 'Não', 'Prefiro não responder']}
-                                        error={errors.nome_mesmo_documento?.message}
-                                        columns={3}
-                                    />
-                                )}
-                            />
-                            {watch('nome_mesmo_documento') === 'Não' && (
-                                <div className="mt-4 animate-in fade-in space-y-2">
-                                    <Label htmlFor="nome_civil_documento">Qual o nome que consta em seus documentos oficiais?</Label>
-                                    <Input
-                                        id="nome_civil_documento"
-                                        {...register('nome_civil_documento')}
-                                        placeholder="Nome no RG/CPF"
-                                    />
-                                </div>
-                            )}
-                        </div>
+
                     </div>
 
                     {/* Email, Telefone */}
@@ -163,7 +139,7 @@ export function DadosPessoais() {
                                 render={({ field }) => (
                                     <RadioGroup
                                         {...field}
-                                        options={['Solteiro(a)', 'Casado(a)', 'Divorciado(a)', 'Viúvo(a)', 'União Estável']}
+                                        options={ESTADO_CIVIL}
                                         error={errors.estado_civil?.message}
                                         columns={2}
                                     />
@@ -237,4 +213,4 @@ export function DadosPessoais() {
             </div>
         </div>
     );
-}
+});

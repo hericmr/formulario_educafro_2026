@@ -14,6 +14,8 @@ import { TrabalhoRenda } from '@/components/sections/TrabalhoRenda';
 import { RendaBeneficios } from '@/components/sections/RendaBeneficios';
 import { FamiliaTransporteSaude } from '@/components/sections/FamiliaTransporteSaude';
 import { CotidianoObjetivo } from '@/components/sections/CotidianoObjetivo';
+import { AutosaveIndicator } from '@/components/form/AutosaveIndicator';
+import { ReviewModal } from '@/components/form/ReviewModal';
 import { CheckCircle2 } from 'lucide-react';
 
 function FormContent() {
@@ -88,41 +90,40 @@ function FormContent() {
         return () => subscription.unsubscribe();
     }, [watch, formUuid]);
 
+    const [showReviewModal, setShowReviewModal] = React.useState(false);
+    const [reviewData, setReviewData] = React.useState({});
+    const [validationErrors, setValidationErrors] = React.useState({});
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
-        // Trigger validation to show formatting errors (CPF, Email, etc)
+        // Trigger validation
         await trigger();
         const data = getValues();
-        const currentErrors = methods.formState.errors;
+        const currentErrors = methods.formState.errors; // Object of errors
 
-        // Find empty fields that are NOT in the error list (since everything is optional in Zod)
+        // Identify empty/error fields
         const emptyFields = Object.keys(data).filter(key => {
             const val = data[key];
             return val === undefined || val === null || val === '' || (Array.isArray(val) && val.length === 0);
         });
 
-        const errorFields = Object.keys(currentErrors);
-        const allPendingFields = [...new Set([...errorFields, ...emptyFields])];
+        // Merge errors for display in modal
+        // We want to know which fields have issues to warn the user
+        const issues = {};
+        Object.keys(currentErrors).forEach(key => issues[key] = currentErrors[key].message);
+        emptyFields.forEach(key => {
+            if (!issues[key]) issues[key] = "Campo não preenchido";
+        });
 
-        if (allPendingFields.length > 0) {
-            // Get Readable Names
-            const fieldNames = allPendingFields.map(key => {
-                const label = document.querySelector(`label[for="${key}"]`) ||
-                    document.querySelector(`[name="${key}"]`)?.closest('.space-y-2')?.querySelector('label');
-                return label ? label.textContent.replace('*', '').trim() : key;
-            }).slice(0, 5);
+        setReviewData(data);
+        setValidationErrors(issues);
+        setShowReviewModal(true);
+    };
 
-            const remaining = allPendingFields.length - fieldNames.length;
-            const fieldList = fieldNames.map(name => `• ${name}`).join('\n');
-            const message = `Os seguintes campos não foram preenchidos ou possuem erros:\n\n${fieldList}${remaining > 0 ? `\n...e outros ${remaining} itens.` : ''}\n\nDeseja enviar o formulário incompleto mesmo assim?`;
-
-            if (!window.confirm(message)) {
-                return;
-            }
-        }
-
-        await sendToSupabase(data, true);
+    const handleConfirmSubmit = async () => {
+        setShowReviewModal(false);
+        await sendToSupabase(reviewData, true);
     };
 
     const observer = React.useRef(null);
@@ -163,26 +164,15 @@ function FormContent() {
     return (
         <div className="min-h-screen md:h-screen bg-gray-50 flex flex-col md:flex-row font-sans text-gray-900 md:overflow-hidden relative">
 
-            {/* Auto-save Indicator */}
-            <div className="fixed top-4 right-4 z-[100] pointer-events-none">
-                {isSaving ? (
-                    <div className="bg-white/80 backdrop-blur shadow-sm border border-primary-100 px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-medium text-primary-600 animate-pulse">
-                        <div className="w-2 h-2 bg-primary-500 rounded-full"></div>
-                        Salvando rascunho...
-                    </div>
-                ) : lastSaved ? (
-                    <div className="bg-white/80 backdrop-blur shadow-sm border border-gray-100 px-3 py-1.5 rounded-full flex items-center gap-2 text-[10px] text-gray-400">
-                        Rascunho salvo às {lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </div>
-                ) : null}
-            </div>
+            {/* Auto-save Indicator moved to specific areas */}
 
             {/* Sidebar (Desktop Only) */}
             <aside className="hidden md:flex flex-col w-80 h-full bg-white border-r border-gray-200 overflow-y-auto">
                 <div className="p-6 border-b border-gray-100 flex flex-col items-center text-center">
                     <img src={`${import.meta.env.BASE_URL}logo_educafro.png`} alt="Educafro" className="h-20 w-auto object-contain mb-4" />
                     <h1 className="text-lg font-bold text-gray-900 leading-tight">Formulário Social</h1>
-                    <p className="text-sm text-primary-600 font-medium">NAE 2026</p>
+                    <p className="text-sm text-primary-600 font-medium mb-2">NAE 2026</p>
+                    <AutosaveIndicator isSaving={isSaving} lastSaved={lastSaved} />
                 </div>
 
                 <div className="p-6 overflow-y-auto flex-1">
@@ -202,6 +192,8 @@ function FormContent() {
                             <p className="text-xs text-primary-600 font-medium">NAE 2026</p>
                         </div>
                     </div>
+                    {/* Compact Autosave for Mobile */}
+                    <AutosaveIndicator isSaving={isSaving} lastSaved={lastSaved} />
                 </div>
                 {/* Mobile Step Indicator included inside header for stickiness */}
                 <StepIndicator />
@@ -268,6 +260,14 @@ function FormContent() {
                     </div>
                 </form>
             </main>
+            {/* Review Modal */}
+            <ReviewModal
+                isOpen={showReviewModal}
+                onClose={() => setShowReviewModal(false)}
+                onConfirm={handleConfirmSubmit}
+                data={reviewData}
+                validationErrors={validationErrors}
+            />
         </div>
     );
 }

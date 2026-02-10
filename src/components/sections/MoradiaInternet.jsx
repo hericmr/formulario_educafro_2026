@@ -4,8 +4,9 @@ import { Label } from '@/components/ui/Label';
 import { Input } from '@/components/ui/Input';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Home, Wifi } from 'lucide-react';
+import { CONDICAO_MORADIA, TIPO_CONSTRUCAO, INTERNET_TIPO, INTERNET_SINAL } from '@/constants/options';
 
-export function MoradiaInternet() {
+export const MoradiaInternet = React.memo(function MoradiaInternet() {
     const { register, formState: { errors }, watch, control } = useRHFContext();
     const temInternet = watch('internet_tem') === 'Sim';
 
@@ -29,7 +30,7 @@ export function MoradiaInternet() {
                                 render={({ field }) => (
                                     <RadioGroup
                                         {...field}
-                                        options={['Própria', 'Alugada', 'Cedida', 'Outro']}
+                                        options={CONDICAO_MORADIA}
                                         error={errors.moradia_condicao?.message}
                                         columns={4}
                                     />
@@ -54,7 +55,7 @@ export function MoradiaInternet() {
                                 render={({ field }) => (
                                     <RadioGroup
                                         {...field}
-                                        options={['Alvenaria', 'Madeira', 'Mista', 'Outro']}
+                                        options={TIPO_CONSTRUCAO}
                                         error={errors.moradia_tipo?.message}
                                         columns={4}
                                     />
@@ -107,7 +108,7 @@ export function MoradiaInternet() {
                                         render={({ field }) => (
                                             <RadioGroup
                                                 {...field}
-                                                options={['Dados Móveis (Celular)', 'Wi-Fi (Banda Larga)', 'Outro']}
+                                                options={INTERNET_TIPO}
                                                 error={errors.internet_tipo?.message}
                                                 columns={3}
                                             />
@@ -131,7 +132,7 @@ export function MoradiaInternet() {
                                         render={({ field }) => (
                                             <RadioGroup
                                                 {...field}
-                                                options={['Sim', 'Não', 'Outro']}
+                                                options={INTERNET_SINAL}
                                                 error={errors.internet_sinal?.message}
                                                 columns={3}
                                             />
@@ -155,4 +156,4 @@ export function MoradiaInternet() {
 
         </div>
     );
-}
+});

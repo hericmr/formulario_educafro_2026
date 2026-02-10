@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/Input';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { CheckboxGroup } from '@/components/ui/CheckboxGroup';
 import { Coffee, Rocket, CheckCircle } from 'lucide-react';
+import { OBJETIVO_EDUCAFRO, FREQUENCIA_AULAS } from '@/constants/options';
 
-export function CotidianoObjetivo() {
+export const CotidianoObjetivo = React.memo(function CotidianoObjetivo() {
     const { register, formState: { errors }, watch, control } = useRHFContext();
 
     return (
@@ -54,7 +55,7 @@ export function CotidianoObjetivo() {
                                 placeholder="Conte um pouco sobre sua trajetória, dificuldades e sonhos..."
                                 {...register('cotidiano_historico')}
                             ></textarea>
-                            {errors.cotidiano_historico && <span className="text-sm text-red-500">{errors.cotidiano_historico.message}</span>}
+                            {errors.cotidiano_historico && <span className="text-sm text-error">{errors.cotidiano_historico.message}</span>}
                         </div>
                     </div>
                 </div>
@@ -88,13 +89,7 @@ export function CotidianoObjetivo() {
                             render={({ field }) => (
                                 <CheckboxGroup
                                     {...field}
-                                    options={[
-                                        'Preparatório para vestibular',
-                                        'Preparatório para o ENEM',
-                                        'Preparatório para o EJA',
-                                        'Preparatório para Concursos Públicos',
-                                        'Outro'
-                                    ]}
+                                    options={OBJETIVO_EDUCAFRO}
                                     error={errors.objetivo_educafro?.message}
                                     columns={2}
                                 />
@@ -125,12 +120,7 @@ export function CotidianoObjetivo() {
                             render={({ field }) => (
                                 <RadioGroup
                                     {...field}
-                                    options={[
-                                        'Sábados',
-                                        'Dias de semana',
-                                        'Intercalar entre dias de semana e fim de semana',
-                                        'Outro'
-                                    ]}
+                                    options={FREQUENCIA_AULAS}
                                     error={errors.objetivo_frequencia?.message}
                                     columns={2}
                                 />
@@ -151,4 +141,4 @@ export function CotidianoObjetivo() {
             </div>
         </div>
     );
-}
+});

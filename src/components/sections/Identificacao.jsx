@@ -4,9 +4,9 @@ import { Label } from '@/components/ui/Label';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { CheckboxGroup } from '@/components/ui/CheckboxGroup';
 import { Input } from '@/components/ui/Input';
-import { ASSISTENTES_SOCIAIS } from '@/lib/constants';
+import { ASSISTENTES_SOCIAIS } from '@/constants/options';
 
-export function Identificacao() {
+export const Identificacao = React.memo(function Identificacao() {
     const { register, formState: { errors }, setValue, watch, control } = useRHFContext();
 
     // Set default date to today if empty
@@ -61,4 +61,4 @@ export function Identificacao() {
             </div>
         </div>
     );
-}
+});

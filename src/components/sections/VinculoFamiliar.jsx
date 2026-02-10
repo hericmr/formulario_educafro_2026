@@ -5,46 +5,9 @@ import { Input } from '@/components/ui/Input';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Users2 } from 'lucide-react';
 
-const VINCULO_OPTIONS = [
-    'Mãe',
-    'Pai',
-    'Mãe adotiva',
-    'Pai adotivo',
-    'Madrasta',
-    'Padrasto',
-    'Irmão',
-    'Irmã',
-    'Meio-irmão',
-    'Meia-irmã',
-    'Irmão adotivo',
-    'Irmã adotiva',
-    'Cônjuge',
-    'Companheiro(a)',
-    'Sogra',
-    'Genro',
-    'Nora',
-    'Filho',
-    'Filha',
-    'Neto',
-    'Neta',
-    'Bisneto',
-    'Bisneta',
-    'Avô',
-    'Avó',
-    'Tio',
-    'Tia',
-    'Primo',
-    'Prima',
-    'Tutor(a)',
-    'Guardião(ã)',
-    'Parente distante',
-    'Cunhado(a)',
-    'Outro (por favor, especifique)',
-    'Não tenho vínculo familiar relevante',
-    'Não'
-];
+import { VINCULO_FAMILIAR } from '@/constants/options';
 
-export function VinculoFamiliar() {
+export const VinculoFamiliar = React.memo(function VinculoFamiliar() {
     const { register, formState: { errors }, watch, control } = useRHFContext();
     const temFamiliar = watch('familiar_nucleo') === 'Sim';
 
@@ -83,7 +46,7 @@ export function VinculoFamiliar() {
                                         render={({ field }) => (
                                             <RadioGroup
                                                 {...field}
-                                                options={VINCULO_OPTIONS}
+                                                options={VINCULO_FAMILIAR}
                                                 error={errors.vinculo_familiar?.message}
                                                 columns={2}
                                             />
@@ -111,4 +74,4 @@ export function VinculoFamiliar() {
             </div>
         </div>
     );
-}
+});

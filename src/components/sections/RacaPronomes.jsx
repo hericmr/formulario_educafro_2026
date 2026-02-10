@@ -12,16 +12,20 @@ export const RacaPronomes = React.memo(function RacaPronomes() {
         <div className="form-question-spacing animate-in fade-in slide-in-from-bottom-4 duration-500">
 
             {/* Section 3: Raça/Cor e Pronomes */}
-            <div className="section-wrapper">
+            <section
+                className="section-wrapper"
+                role="region"
+                aria-labelledby="raca-title"
+            >
                 <div className="section-side-tab">
-                    <h2 className="section-title flex items-center gap-2 justify-end">
+                    <h2 id="raca-title" className="section-title flex items-center gap-2 justify-end">
                         Raça / Cor
                     </h2>
                 </div>
                 <div className="section-card">
                     <div className="form-question-spacing">
                         <div className="form-question-spacing">
-                            <Label className="text-base font-semibold">Como você se autodeclara?</Label>
+                            <Label className="text-base font-semibold">Como você se autodeclara em relação à raça/cor?</Label>
                             <Controller
                                 name="raca_cor"
                                 control={control}
@@ -37,7 +41,7 @@ export const RacaPronomes = React.memo(function RacaPronomes() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     );
 });

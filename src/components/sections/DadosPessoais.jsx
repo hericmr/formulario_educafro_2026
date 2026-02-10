@@ -38,17 +38,21 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
 
     return (
         <div className="form-question-spacing animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="section-wrapper">
+            <section
+                className="section-wrapper"
+                role="region"
+                aria-labelledby="dados-pessoais-title"
+            >
                 <div className="section-side-tab">
-                    <h2 className="section-title flex items-center gap-2 justify-end">
+                    <h2 id="dados-pessoais-title" className="section-title flex items-center gap-2 justify-end">
                         Dados Pessoais
                     </h2>
                 </div>
                 <div className="section-card">
                     {/* Nome e Identificação */}
                     <div className="form-question-spacing mb-6">
-                        <div className="space-y-2">
-                            <Label htmlFor="nome_completo">Nome completo (Nome Social deve vir aqui se for o caso) <span className="text-error">*</span></Label>
+                        <div className="form-field-spacing">
+                            <Label htmlFor="nome_completo">Nome completo (nome social, se preferir) <span className="text-error">*</span></Label>
                             <Input
                                 id="nome_completo"
                                 placeholder="Nome completo"
@@ -57,13 +61,37 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
                             />
                         </div>
 
-
+                        <div className="form-field-spacing">
+                            <Label>Esse nome é o mesmo que consta em seus documentos oficiais? <span className="text-error">*</span></Label>
+                            <Controller
+                                name="nome_mesmo_documento"
+                                control={control}
+                                render={({ field }) => (
+                                    <RadioGroup
+                                        {...field}
+                                        options={['Sim', 'Não', 'Prefiro não responder']}
+                                        error={errors.nome_mesmo_documento?.message}
+                                        columns={3}
+                                    />
+                                )}
+                            />
+                            {watch('nome_mesmo_documento') === 'Não' && (
+                                <div className="mt-4 animate-in fade-in form-field-spacing">
+                                    <Label htmlFor="nome_civil_documento">Qual o nome que consta em seus documentos oficiais?</Label>
+                                    <Input
+                                        id="nome_civil_documento"
+                                        {...register('nome_civil_documento')}
+                                        placeholder="Nome no RG/CPF"
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     {/* Email, Telefone */}
                     <div className="grid grid-cols-1 md:grid-cols-2 form-grid-spacing mb-6">
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="email">E-mail</Label>
                             <div className="relative">
                                 <Input
@@ -78,7 +106,7 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
                             </div>
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="telefone">Telefone (WhatsApp)</Label>
                             <div className="relative">
                                 <Input
@@ -97,7 +125,7 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
 
                     {/* Docs & Data Nascimento */}
                     <div className="grid grid-cols-1 md:grid-cols-2 form-grid-spacing mb-6">
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="data_nascimento">Data de Nascimento</Label>
                             <Input
                                 id="data_nascimento"
@@ -109,7 +137,7 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
 
 
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="cpf">CPF</Label>
                             <Input
                                 id="cpf"
@@ -121,7 +149,7 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
                             />
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="rg">RG</Label>
                             <Input
                                 id="rg"
@@ -131,7 +159,7 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
                             />
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="estado_civil">Estado Civil</Label>
                             <Controller
                                 name="estado_civil"
@@ -154,7 +182,7 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
                         Endereço
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 form-grid-spacing">
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="cidade">Cidade</Label>
                             <Controller
                                 name="cidade"
@@ -180,7 +208,7 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
                             )}
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="naturalidade">Naturalidade (Cidade/Estado)</Label>
                             <Input
                                 id="naturalidade"
@@ -190,7 +218,7 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
                             />
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="bairro">Bairro</Label>
                             <Input
                                 id="bairro"
@@ -199,7 +227,7 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
                             />
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="endereco">Logradouro e Número</Label>
                             <Input
                                 id="endereco"
@@ -210,7 +238,7 @@ export const DadosPessoais = React.memo(function DadosPessoais() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     );
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { cn } from '@/lib/utils';
 
 /**
@@ -23,6 +23,7 @@ export const RadioOption = ({ id, value, label, name, checked, onChange, onBlur,
             onChange={onChange}
             onBlur={onBlur}
             disabled={disabled}
+            tabIndex={checked ? 0 : -1}
             className="h-4 w-4 text-primary-600 border-gray-300 focus:ring-primary-500 cursor-pointer disabled:cursor-not-allowed"
         />
         <span className={cn(
@@ -37,8 +38,9 @@ export const RadioOption = ({ id, value, label, name, checked, onChange, onBlur,
 /**
  * RadioGroup - Wrapper component for radio button groups
  * Compatible with react-hook-form
+ * Supports keyboard navigation with arrow keys
  */
-export const RadioGroup = React.forwardRef(({
+export const RadioGroup = React.forwardRef((({
     options = [],
     value,
     onChange,
@@ -48,8 +50,16 @@ export const RadioGroup = React.forwardRef(({
     columns = 1,
     className,
     disabled = false,
+    label,
+    description,
+    required,
     ...props
 }, ref) => {
+    const groupRef = useRef(null);
+    const labelId = label ? `${name}-label` : undefined;
+    const descId = description ? `${name}-desc` : undefined;
+    const errorId = error ? `${name}-error` : undefined;
+
     // Grid classes based on columns
     const gridClasses = {
         1: 'grid-cols-1',
@@ -58,35 +68,89 @@ export const RadioGroup = React.forwardRef(({
         4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
     };
 
-    return (
-        <div className={cn('space-y-2', className)} ref={ref} aria-invalid={!!error}>
-            <div className={cn('grid gap-3', gridClasses[columns] || gridClasses[1])}>
-                {options.map((option, idx) => {
-                    const optionValue = typeof option === 'string' ? option : option.value;
-                    const optionLabel = typeof option === 'string' ? option : option.label;
-                    const optionDisabled = typeof option === 'object' ? option.disabled : false;
+    // Handle keyboard navigation (arrow keys)
+    const handleKeyDown = (e) => {
+        if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
 
-                    return (
-                        <RadioOption
-                            key={idx}
-                            id={`${name}_${idx}`}
-                            name={name}
-                            value={optionValue}
-                            label={optionLabel}
-                            checked={value === optionValue}
-                            onChange={() => onChange && onChange(optionValue)}
-                            onBlur={onBlur}
-                            error={error}
-                            disabled={disabled || optionDisabled}
-                        />
-                    );
-                })}
+        e.preventDefault();
+        const currentIndex = options.findIndex(opt => {
+            const optValue = typeof opt === 'string' ? opt : opt.value;
+            return optValue === value;
+        });
+
+        let nextIndex;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            nextIndex = (currentIndex + 1) % options.length;
+        } else {
+            nextIndex = (currentIndex - 1 + options.length) % options.length;
+        }
+
+        const nextOption = options[nextIndex];
+        const nextValue = typeof nextOption === 'string' ? nextOption : nextOption.value;
+
+        if (onChange) {
+            onChange(nextValue);
+        }
+    };
+
+    // Build aria-describedby
+    const describedBy = [descId, errorId].filter(Boolean).join(' ') || undefined;
+
+    return (
+        <div className={cn('space-y-2', className)} ref={ref}>
+            <div
+                ref={groupRef}
+                role="radiogroup"
+                aria-labelledby={labelId}
+                aria-describedby={describedBy}
+                aria-invalid={!!error}
+                aria-required={required}
+                onKeyDown={handleKeyDown}
+            >
+                {label && (
+                    <div id={labelId} className="text-base font-semibold text-gray-700 mb-3">
+                        {label}
+                        {required && <span className="text-primary-600 ml-1" aria-label="obrigatório">*</span>}
+                    </div>
+                )}
+                {description && (
+                    <div id={descId} className="text-sm text-gray-600 mb-3">
+                        {description}
+                    </div>
+                )}
+                <div className={cn('grid gap-4', gridClasses[columns] || gridClasses[1])}>
+                    {options.map((option, idx) => {
+                        const optionValue = typeof option === 'string' ? option : option.value;
+                        const optionLabel = typeof option === 'string' ? option : option.label;
+                        const optionDisabled = typeof option === 'object' ? option.disabled : false;
+
+                        return (
+                            <RadioOption
+                                key={idx}
+                                id={`${name}_${idx}`}
+                                name={name}
+                                value={optionValue}
+                                label={optionLabel}
+                                checked={value === optionValue}
+                                onChange={() => onChange && onChange(optionValue)}
+                                onBlur={onBlur}
+                                disabled={disabled || optionDisabled}
+                            />
+                        );
+                    })}
+                </div>
             </div>
             {error && (
-                <span className="text-sm text-red-500 mt-1 block">{error}</span>
+                <span
+                    id={errorId}
+                    className="text-sm text-red-500 mt-1 block"
+                    role="alert"
+                >
+                    {error}
+                </span>
             )}
         </div>
     );
-});
+}));
 
 RadioGroup.displayName = 'RadioGroup';

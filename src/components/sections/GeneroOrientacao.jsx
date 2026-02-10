@@ -22,8 +22,8 @@ export const GeneroOrientacao = React.memo(function GeneroOrientacao() {
                 </div>
                 <div className="section-card">
                     <div className="form-question-spacing">
-                        <div className="space-y-2">
-                            <Label className="text-base font-semibold text-gray-800">1. Gênero / Identidade de Gênero</Label>
+                        <div className="form-field-spacing">
+                            <Label className="text-base font-semibold text-gray-800">Qual é sua identidade de gênero?</Label>
                             <Controller
                                 name="genero"
                                 control={control}
@@ -48,8 +48,8 @@ export const GeneroOrientacao = React.memo(function GeneroOrientacao() {
                             )}
                         </div>
 
-                        <div className="space-y-2 pt-4 border-t border-app-border">
-                            <Label className="text-base font-semibold text-gray-800">2. Você é pessoa trans ou travesti?</Label>
+                        <div className="form-field-spacing pt-4 border-t border-app-border">
+                            <Label className="text-base font-semibold text-gray-800">Você é pessoa trans ou travesti?</Label>
                             <Controller
                                 name="trans_travesti"
                                 control={control}
@@ -76,8 +76,8 @@ export const GeneroOrientacao = React.memo(function GeneroOrientacao() {
                 </div>
                 <div className="section-card">
                     <div className="form-question-spacing">
-                        <Label className="text-base font-semibold text-gray-800">2. Qual sua orientação sexual?</Label>
-                        <Label className="text-base text-gray-600 font-normal block mb-2">(Termo relativo às relações afetivo-sexuais)</Label>
+                        <Label className="text-base font-semibold text-gray-800">Qual sua orientação sexual?</Label>
+                        <Label className="text-base text-gray-600 font-normal block mb-2">(Refere-se às relações afetivo-sexuais)</Label>
                         <Controller
                             name="orientacao_sexual"
                             control={control}

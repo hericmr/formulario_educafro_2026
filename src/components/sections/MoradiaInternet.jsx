@@ -22,7 +22,7 @@ export const MoradiaInternet = React.memo(function MoradiaInternet() {
                 </div>
                 <div className="section-card">
                     <div className="form-question-spacing">
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="moradia_condicao">Condição da Moradia</Label>
                             <Controller
                                 name="moradia_condicao"
@@ -47,7 +47,7 @@ export const MoradiaInternet = React.memo(function MoradiaInternet() {
                             )}
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label htmlFor="moradia_tipo">Tipo de Construção</Label>
                             <Controller
                                 name="moradia_tipo"
@@ -100,7 +100,7 @@ export const MoradiaInternet = React.memo(function MoradiaInternet() {
 
                         {temInternet && (
                             <div className="form-question-spacing mt-4 p-4 bg-primary-50 rounded-xl border border-primary-100 animate-in fade-in slide-in-from-top-2">
-                                <div className="space-y-2">
+                                <div className="form-field-spacing">
                                     <Label htmlFor="internet_tipo">Qual o tipo de conexão?</Label>
                                     <Controller
                                         name="internet_tipo"
@@ -124,7 +124,7 @@ export const MoradiaInternet = React.memo(function MoradiaInternet() {
                                         </div>
                                     )}
                                 </div>
-                                <div className="space-y-2">
+                                <div className="form-field-spacing">
                                     <Label htmlFor="internet_sinal">O sinal é estável?</Label>
                                     <Controller
                                         name="internet_sinal"

@@ -15,14 +15,18 @@ export const Identificacao = React.memo(function Identificacao() {
     }, [setValue]);
 
     return (
-        <div className="section-wrapper animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <section
+            className="section-wrapper animate-in fade-in slide-in-from-bottom-4 duration-500"
+            role="region"
+            aria-labelledby="identificacao-title"
+        >
             <div className="section-side-tab">
-                <h2 className="section-title">Identificação</h2>
+                <h2 id="identificacao-title" className="section-title">Identificação</h2>
             </div>
 
             <div className="section-card">
                 <div className="grid grid-cols-1 md:grid-cols-2 form-grid-spacing">
-                    <div className="space-y-2">
+                    <div className="form-field-spacing">
                         <Label htmlFor="entrevistador">Nome(s) da(o)(s) Responsável(is) pela Entrevista</Label>
                         <Controller
                             name="entrevistador"
@@ -48,7 +52,7 @@ export const Identificacao = React.memo(function Identificacao() {
                         )}
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="form-field-spacing">
                         <Label htmlFor="data_entrevista">Data da Entrevista</Label>
                         <Input
                             id="data_entrevista"
@@ -59,6 +63,6 @@ export const Identificacao = React.memo(function Identificacao() {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 });

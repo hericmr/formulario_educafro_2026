@@ -1,6 +1,6 @@
 export const FORM_STEPS = [
     { id: 'identificacao', title: 'Identificação', fields: ['entrevistador', 'entrevistador_outro', 'data_entrevista'] },
-    { id: 'dados_pessoais', title: 'Dados Pessoais', fields: ['nome_completo', 'telefone', 'email', 'data_nascimento', 'cpf', 'rg', 'cidade', 'cidade_outra', 'naturalidade', 'endereco', 'bairro', 'estado_civil'] },
+    { id: 'dados_pessoais', title: 'Dados Pessoais', fields: ['nome_completo', 'nome_mesmo_documento', 'nome_civil_documento', 'telefone', 'email', 'data_nascimento', 'cpf', 'rg', 'cidade', 'cidade_outra', 'naturalidade', 'endereco', 'bairro', 'estado_civil'] },
     { id: 'raca_pronomes', title: 'Raça e Cor', fields: ['raca_cor'] },
     { id: 'genero_orientacao', title: 'Gênero e Orientação', fields: ['genero', 'genero_outro', 'trans_travesti', 'orientacao_sexual', 'orientacao_sexual_outra'] },
     { id: 'escolaridade_familia', title: 'Escolaridade e Filiação', fields: ['escolaridade', 'escolaridade_outro', 'escola_publica_privada', 'nome_mae', 'profissao_mae', 'escolaridade_mae', 'escolaridade_mae_outro', 'nome_pai', 'profissao_pai', 'escolaridade_pai', 'escolaridade_pai_outro'] },

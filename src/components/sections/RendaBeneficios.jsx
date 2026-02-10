@@ -60,8 +60,8 @@ export const RendaBeneficios = React.memo(function RendaBeneficios() {
                 </div>
                 <div className="section-card">
                     <div className="form-question-spacing">
-                        <div className="space-y-2">
-                            <Label className="text-base font-semibold">Recebe algum benefício social?</Label>
+                        <div className="form-field-spacing">
+                            <Label className="text-base font-semibold">Recebe atualmente algum benefício social? (Ex.: Bolsa Família, BPC, entre outros)</Label>
                             <Controller
                                 name="beneficios_recebe"
                                 control={control}
@@ -76,7 +76,7 @@ export const RendaBeneficios = React.memo(function RendaBeneficios() {
                             />
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label>Possui CadÚnico?</Label>
                             <Controller
                                 name="beneficios_cadunico"
@@ -93,7 +93,7 @@ export const RendaBeneficios = React.memo(function RendaBeneficios() {
 
                         {recebeBeneficios && (
                             <div className="form-question-spacing p-4 bg-primary-50 rounded-xl border border-primary-100 animate-in fade-in">
-                                <div className="space-y-2">
+                                <div className="form-field-spacing">
                                     <Label>Quais benefícios recebe?</Label>
                                     <Controller
                                         name="beneficios_tipo"
@@ -120,7 +120,7 @@ export const RendaBeneficios = React.memo(function RendaBeneficios() {
                             </div>
                         )}
 
-                        <div className="space-y-2 pt-4 border-t border-app-border">
+                        <div className="form-field-spacing pt-4 border-t border-app-border">
                             <Label className="text-base font-semibold">A família necessita de cesta básica?</Label>
                             <Controller
                                 name="cesta_basica"

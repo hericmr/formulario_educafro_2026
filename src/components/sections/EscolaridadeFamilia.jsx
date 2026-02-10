@@ -79,8 +79,8 @@ export const EscolaridadeFamilia = React.memo(function EscolaridadeFamilia() {
                         <h3 className="text-lg font-semibold text-primary-700 mb-4 flex items-center gap-2">
                             <User className="w-4 h-4" /> Mãe
                         </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 form-grid-spacing">
-                            <div className="md:col-span-1">
+                        <div className="grid grid-cols-1 md:grid-cols-2 form-grid-spacing">
+                            <div>
                                 <Label htmlFor="nome_mae">Nome Completo</Label>
                                 <Input id="nome_mae" {...register('nome_mae')} error={errors.nome_mae?.message} />
                             </div>
@@ -88,31 +88,31 @@ export const EscolaridadeFamilia = React.memo(function EscolaridadeFamilia() {
                                 <Label htmlFor="profissao_mae">Profissão</Label>
                                 <Input id="profissao_mae" placeholder="Ex: Do Lar, Autônoma..." {...register('profissao_mae')} error={errors.profissao_mae?.message} />
                             </div>
-                            <div>
-                                <Label htmlFor="escolaridade_mae">Escolaridade</Label>
-                                <Controller
-                                    name="escolaridade_mae"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <RadioGroup
-                                            {...field}
-                                            options={ESCOLARIDADE_OPTIONS}
-                                            error={errors.escolaridade_mae?.message}
-                                            columns={2}
-                                        />
-                                    )}
-                                />
-                                {watch('escolaridade_mae') === 'Outro' && (
-                                    <div className="mt-4 animate-in fade-in">
-                                        <Label htmlFor="escolaridade_mae_outro">Especifique:</Label>
-                                        <Input
-                                            id="escolaridade_mae_outro"
-                                            {...register('escolaridade_mae_outro')}
-                                            placeholder="Qual?"
-                                        />
-                                    </div>
+                        </div>
+                        <div className="mt-6">
+                            <Label htmlFor="escolaridade_mae">Escolaridade</Label>
+                            <Controller
+                                name="escolaridade_mae"
+                                control={control}
+                                render={({ field }) => (
+                                    <RadioGroup
+                                        {...field}
+                                        options={ESCOLARIDADE_OPTIONS}
+                                        error={errors.escolaridade_mae?.message}
+                                        columns={2}
+                                    />
                                 )}
-                            </div>
+                            />
+                            {watch('escolaridade_mae') === 'Outro' && (
+                                <div className="mt-4 animate-in fade-in">
+                                    <Label htmlFor="escolaridade_mae_outro">Especifique:</Label>
+                                    <Input
+                                        id="escolaridade_mae_outro"
+                                        {...register('escolaridade_mae_outro')}
+                                        placeholder="Qual?"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -121,8 +121,8 @@ export const EscolaridadeFamilia = React.memo(function EscolaridadeFamilia() {
                         <h3 className="text-lg font-semibold text-secondary-700 mb-4 flex items-center gap-2">
                             <User className="w-4 h-4" /> Pai
                         </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 form-grid-spacing">
-                            <div className="md:col-span-1">
+                        <div className="grid grid-cols-1 md:grid-cols-2 form-grid-spacing">
+                            <div>
                                 <Label htmlFor="nome_pai">Nome Completo</Label>
                                 <Input id="nome_pai" {...register('nome_pai')} />
                             </div>
@@ -130,30 +130,30 @@ export const EscolaridadeFamilia = React.memo(function EscolaridadeFamilia() {
                                 <Label htmlFor="profissao_pai">Profissão</Label>
                                 <Input id="profissao_pai" {...register('profissao_pai')} />
                             </div>
-                            <div>
-                                <Label htmlFor="escolaridade_pai">Escolaridade</Label>
-                                <Controller
-                                    name="escolaridade_pai"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <RadioGroup
-                                            {...field}
-                                            options={ESCOLARIDADE_OPTIONS}
-                                            columns={2}
-                                        />
-                                    )}
-                                />
-                                {watch('escolaridade_pai') === 'Outro' && (
-                                    <div className="mt-4 animate-in fade-in">
-                                        <Label htmlFor="escolaridade_pai_outro">Especifique:</Label>
-                                        <Input
-                                            id="escolaridade_pai_outro"
-                                            {...register('escolaridade_pai_outro')}
-                                            placeholder="Qual?"
-                                        />
-                                    </div>
+                        </div>
+                        <div className="mt-6">
+                            <Label htmlFor="escolaridade_pai">Escolaridade</Label>
+                            <Controller
+                                name="escolaridade_pai"
+                                control={control}
+                                render={({ field }) => (
+                                    <RadioGroup
+                                        {...field}
+                                        options={ESCOLARIDADE_OPTIONS}
+                                        columns={2}
+                                    />
                                 )}
-                            </div>
+                            />
+                            {watch('escolaridade_pai') === 'Outro' && (
+                                <div className="mt-4 animate-in fade-in">
+                                    <Label htmlFor="escolaridade_pai_outro">Especifique:</Label>
+                                    <Input
+                                        id="escolaridade_pai_outro"
+                                        {...register('escolaridade_pai_outro')}
+                                        placeholder="Qual?"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

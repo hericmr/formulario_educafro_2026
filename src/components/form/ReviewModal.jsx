@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { X, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { FORM_STEPS } from '@/lib/constants'; // Need to import steps to map labels
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 export const ReviewModal = ({ isOpen, onClose, onConfirm, data, validationErrors }) => {
+    const modalRef = useRef(null);
+
+    // Enable focus trap when modal is open
+    useFocusTrap(isOpen, modalRef);
+
+    // Handle ESC key to close modal
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const handleEsc = (e) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        document.addEventListener('keydown', handleEsc);
+        return () => document.removeEventListener('keydown', handleEsc);
+    }, [isOpen, onClose]);
+
     if (!isOpen) return null;
 
     // Helper to format values for display
@@ -34,17 +54,30 @@ export const ReviewModal = ({ isOpen, onClose, onConfirm, data, validationErrors
     });
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-200">
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+        >
+            <div
+                ref={modalRef}
+                className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-200"
+            >
 
                 {/* Header */}
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between">
                     <div>
-                        <h2 className="text-2xl font-bold text-gray-900">Revisão Final</h2>
-                        <p className="text-gray-500">Confira seus dados antes de enviar.</p>
+                        <h2 id="modal-title" className="text-2xl font-bold text-gray-900">Revisão Final</h2>
+                        <p id="modal-description" className="text-gray-500">Confira seus dados antes de enviar.</p>
                     </div>
-                    <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                        <X className="w-6 h-6 text-gray-500" />
+                    <button
+                        onClick={onClose}
+                        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                        aria-label="Fechar modal de revisão"
+                    >
+                        <X className="w-6 h-6 text-gray-500" aria-hidden="true" />
                     </button>
                 </div>
 

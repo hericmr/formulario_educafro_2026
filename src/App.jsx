@@ -16,6 +16,8 @@ import { FamiliaTransporteSaude } from '@/components/sections/FamiliaTransporteS
 import { CotidianoObjetivo } from '@/components/sections/CotidianoObjetivo';
 import { AutosaveIndicator } from '@/components/form/AutosaveIndicator';
 import { ReviewModal } from '@/components/form/ReviewModal';
+import { SkipLink } from '@/components/ui/SkipLink';
+import { useAnnouncement } from '@/hooks/useAnnouncement';
 import { CheckCircle2 } from 'lucide-react';
 
 function FormContent() {
@@ -23,6 +25,7 @@ function FormContent() {
     const { getValues, watch, trigger, formState: { errors } } = methods;
     const [isSaving, setIsSaving] = React.useState(false);
     const [lastSaved, setLastSaved] = React.useState(null);
+    const { announce, AnnouncementRegion } = useAnnouncement();
 
     // Get or Create UUID for this session
     const [formUuid] = React.useState(() => {
@@ -67,6 +70,13 @@ function FormContent() {
             }
 
             setLastSaved(new Date());
+
+            // Announce save to screen readers
+            if (!isFinal) {
+                const now = new Date();
+                announce(`Formulário salvo automaticamente às ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`);
+            }
+
             if (isFinal) {
                 alert('Entrevista salva com sucesso!');
                 localStorage.removeItem('educafro_form_uuid'); // Clear for next one
@@ -162,113 +172,129 @@ function FormContent() {
     }, [steps, setCurrentStep]);
 
     return (
-        <div className="min-h-screen md:h-screen bg-gray-50 flex flex-col md:flex-row font-sans text-gray-900 md:overflow-hidden relative">
+        <>
+            {/* Skip Links for Keyboard Navigation */}
+            <SkipLink href="#main-content">Pular para o conteúdo principal</SkipLink>
+            <SkipLink href="#form-navigation">Pular para navegação do formulário</SkipLink>
 
-            {/* Auto-save Indicator moved to specific areas */}
+            {/* Live Region for Screen Reader Announcements */}
+            <AnnouncementRegion />
 
-            {/* Sidebar (Desktop Only) */}
-            <aside className="hidden md:flex flex-col w-80 h-full bg-white border-r border-gray-200 overflow-y-auto">
-                <div className="p-6 border-b border-gray-100 flex flex-col items-center text-center">
-                    <img src={`${import.meta.env.BASE_URL}logo_educafro.png`} alt="Educafro" className="h-20 w-auto object-contain mb-4" />
-                    <h1 className="text-lg font-bold text-gray-900 leading-tight">Formulário Social</h1>
-                    <p className="text-sm text-primary-600 font-medium mb-2">NAE 2026</p>
-                    <AutosaveIndicator isSaving={isSaving} lastSaved={lastSaved} />
-                </div>
+            <div className="min-h-screen md:h-screen bg-gray-50 flex flex-col md:flex-row font-sans text-gray-900 md:overflow-hidden relative">
 
-                <div className="p-6 overflow-y-auto flex-1">
-                    <StepIndicator />
-                </div>
+                {/* Sidebar (Desktop Only) */}
+                <aside
+                    id="form-navigation"
+                    className="hidden md:flex flex-col w-80 h-full bg-white border-r border-gray-200 overflow-y-auto"
+                    role="navigation"
+                    aria-label="Navegação das etapas do formulário"
+                >
+                    <div className="p-6 border-b border-gray-100 flex flex-col items-center text-center">
+                        <img src={`${import.meta.env.BASE_URL}logo_educafro.png`} alt="Educafro" className="h-20 w-auto object-contain mb-4" />
+                        <h1 className="text-lg font-bold text-gray-900 leading-tight">Formulário Social</h1>
+                        <p className="text-sm text-primary-600 font-medium mb-2">NAE 2026</p>
+                        <AutosaveIndicator isSaving={isSaving} lastSaved={lastSaved} />
+                    </div>
 
+                    <div className="p-6 overflow-y-auto flex-1">
+                        <StepIndicator />
+                    </div>
+                </aside>
 
-            </aside>
-
-            {/* Header (Mobile Only) */}
-            <header className="md:hidden bg-white border-b border-gray-200 sticky top-0 z-30">
-                <div className="px-4 py-3 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <img src={`${import.meta.env.BASE_URL}logo_educafro.png`} alt="Educafro" className="h-10 w-auto object-contain" />
-                        <div>
-                            <h1 className="text-sm font-bold text-gray-900 leading-tight">Formulário Social</h1>
-                            <p className="text-xs text-primary-600 font-medium">NAE 2026</p>
+                {/* Header (Mobile Only) */}
+                <header className="md:hidden bg-white border-b border-gray-200 sticky top-0 z-30">
+                    <div className="px-4 py-3 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <img src={`${import.meta.env.BASE_URL}logo_educafro.png`} alt="Educafro" className="h-10 w-auto object-contain" />
+                            <div>
+                                <h1 className="text-sm font-bold text-gray-900 leading-tight">Formulário Social</h1>
+                                <p className="text-xs text-primary-600 font-medium">NAE 2026</p>
+                            </div>
                         </div>
+                        {/* Compact Autosave for Mobile */}
+                        <AutosaveIndicator isSaving={isSaving} lastSaved={lastSaved} />
                     </div>
-                    {/* Compact Autosave for Mobile */}
-                    <AutosaveIndicator isSaving={isSaving} lastSaved={lastSaved} />
-                </div>
-                {/* Mobile Step Indicator included inside header for stickiness */}
-                <StepIndicator />
-            </header>
+                    {/* Mobile Step Indicator included inside header for stickiness */}
+                    <StepIndicator />
+                </header>
 
-            {/* Main Content Area - TODAS AS SEÇÕES */}
-            <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-8 md:p-12 overflow-y-auto custom-scrollbar scroll-smooth">
-                <form onSubmit={handleFormSubmit} className="space-y-8 pb-20 md:pb-0">
+                {/* Main Content Area - TODAS AS SEÇÕES */}
+                <main
+                    id="main-content"
+                    className="flex-1 w-full max-w-5xl mx-auto md:p-12 overflow-y-auto custom-scrollbar scroll-smooth"
+                    role="main"
+                    aria-label="Formulário Social"
+                >
+                    <form onSubmit={handleFormSubmit} className="space-y-8 pb-20 md:pb-0 px-4 py-8 md:p-0">
 
-                    {/* Todas as seções renderizadas de uma vez */}
-                    <div id="identificacao" className="scroll-mt-10">
-                        <Identificacao />
-                    </div>
+                        {/* Todas as seções renderizadas de uma vez */}
+                        <div id="identificacao" className="scroll-mt-10">
+                            <Identificacao />
+                        </div>
 
-                    <div id="dados_pessoais" className="scroll-mt-10">
-                        <DadosPessoais />
-                    </div>
+                        <div id="dados_pessoais" className="scroll-mt-10">
+                            <DadosPessoais />
+                        </div>
 
-                    <div id="raca_pronomes" className="scroll-mt-10">
-                        <RacaPronomes />
-                    </div>
+                        <div id="raca_pronomes" className="scroll-mt-10">
+                            <RacaPronomes />
+                        </div>
 
-                    <div id="genero_orientacao" className="scroll-mt-10">
-                        <GeneroOrientacao />
-                    </div>
+                        <div id="genero_orientacao" className="scroll-mt-10">
+                            <GeneroOrientacao />
+                        </div>
 
-                    <div id="escolaridade_familia" className="scroll-mt-10">
-                        <EscolaridadeFamilia />
-                    </div>
+                        <div id="escolaridade_familia" className="scroll-mt-10">
+                            <EscolaridadeFamilia />
+                        </div>
 
-                    <div id="vinculo_familiar" className="scroll-mt-10">
-                        <VinculoFamiliar />
-                    </div>
+                        <div id="vinculo_familiar" className="scroll-mt-10">
+                            <VinculoFamiliar />
+                        </div>
 
-                    <div id="moradia_internet" className="scroll-mt-10">
-                        <MoradiaInternet />
-                    </div>
+                        <div id="moradia_internet" className="scroll-mt-10">
+                            <MoradiaInternet />
+                        </div>
 
-                    <div id="trabalho_renda" className="scroll-mt-10">
-                        <TrabalhoRenda />
-                    </div>
+                        <div id="trabalho_renda" className="scroll-mt-10">
+                            <TrabalhoRenda />
+                        </div>
 
-                    <div id="renda_beneficios" className="scroll-mt-10">
-                        <RendaBeneficios />
-                    </div>
+                        <div id="renda_beneficios" className="scroll-mt-10">
+                            <RendaBeneficios />
+                        </div>
 
-                    <div id="familia_transporte_saude" className="scroll-mt-10">
-                        <FamiliaTransporteSaude />
-                    </div>
+                        <div id="familia_transporte_saude" className="scroll-mt-10">
+                            <FamiliaTransporteSaude />
+                        </div>
 
-                    <div id="cotidiano_objetivo" className="scroll-mt-10">
-                        <CotidianoObjetivo />
-                    </div>
+                        <div id="cotidiano_objetivo" className="scroll-mt-10">
+                            <CotidianoObjetivo />
+                        </div>
 
-                    {/* Botão de Envio - Fixo no canto inferior direito no desktop, Sticky no mobile */}
-                    <div className="md:fixed md:bottom-10 md:right-12 sticky bottom-0 bg-white md:bg-transparent border-t border-gray-200 md:border-none p-6 md:p-0 shadow-lg md:shadow-none rounded-t-xl md:rounded-none flex justify-end z-50">
-                        <button
-                            type="submit"
-                            className="w-full md:w-auto md:min-w-[260px] bg-primary-600 hover:bg-primary-700 text-white font-bold py-4 px-8 rounded-xl transition-all flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl active:scale-95 ring-4 ring-white md:ring-0"
-                        >
-                            <CheckCircle2 className="w-6 h-6" />
-                            <span className="text-lg">Enviar Formulário</span>
-                        </button>
-                    </div>
-                </form>
-            </main>
-            {/* Review Modal */}
-            <ReviewModal
-                isOpen={showReviewModal}
-                onClose={() => setShowReviewModal(false)}
-                onConfirm={handleConfirmSubmit}
-                data={reviewData}
-                validationErrors={validationErrors}
-            />
-        </div>
+                        {/* Botão de Envio - Fixo no canto inferior direito no desktop, Sticky no mobile */}
+                        <div className="md:fixed md:bottom-10 md:right-12 sticky bottom-0 bg-white md:bg-transparent border-t border-gray-200 md:border-none p-6 md:p-0 shadow-lg md:shadow-none rounded-t-xl md:rounded-none flex justify-end z-50">
+                            <button
+                                type="submit"
+                                className="w-full md:w-auto md:min-w-[260px] bg-primary-600 hover:bg-primary-700 text-white font-bold py-4 px-8 rounded-xl transition-all flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl active:scale-95 ring-4 ring-white md:ring-0"
+                            >
+                                <CheckCircle2 className="w-6 h-6" />
+                                <span className="text-lg">Enviar Formulário</span>
+                            </button>
+                        </div>
+                    </form>
+                </main>
+
+                {/* Review Modal */}
+                <ReviewModal
+                    isOpen={showReviewModal}
+                    onClose={() => setShowReviewModal(false)}
+                    onConfirm={handleConfirmSubmit}
+                    data={reviewData}
+                    validationErrors={validationErrors}
+                />
+            </div>
+        </>
     );
 }
 

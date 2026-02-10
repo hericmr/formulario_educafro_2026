@@ -17,9 +17,9 @@ export function StepIndicator() {
     };
 
     return (
-        <nav className="w-full">
+        <nav aria-label="Navegação das etapas do formulário">
             {/* Desktop / Vertical Sidebar View */}
-            <div className="hidden md:flex flex-col space-y-0 relative">
+            <div className="hidden md:flex flex-col space-y-0 relative" role="list">
                 {/* Connecting Line Background */}
                 <div className="absolute left-[19px] top-6 bottom-6 w-0.5 bg-gray-200 -z-10"></div>
 
@@ -37,6 +37,9 @@ export function StepIndicator() {
                         <button
                             key={step.id}
                             onClick={() => handleJumpToStep(index)}
+                            role="listitem"
+                            aria-label={`Passo ${index + 1} de ${steps.length}: ${step.title}${isCurrent ? ' (atual)' : ''}${isCompleted ? ' (completo)' : ''}`}
+                            aria-current={isCurrent ? 'step' : undefined}
                             className={cn(
                                 "group flex items-center gap-4 py-3 text-left w-full focus:outline-none transition-colors rounded-lg px-2",
                                 isCurrent ? "bg-primary-50" : "hover:bg-gray-50"
@@ -76,6 +79,7 @@ export function StepIndicator() {
                         disabled={currentStep === 0}
                         onClick={() => handleJumpToStep(currentStep - 1)}
                         className="text-sm font-medium text-gray-500 disabled:opacity-30 disabled:cursor-not-allowed hover:text-primary-600"
+                        aria-label="Ir para passo anterior"
                     >
                         Anterior
                     </button>
@@ -89,12 +93,17 @@ export function StepIndicator() {
                         disabled={currentStep === steps.length - 1}
                         onClick={() => handleJumpToStep(currentStep + 1)}
                         className="text-sm font-medium text-primary-600 disabled:opacity-30 disabled:cursor-not-allowed hover:text-primary-700"
+                        aria-label="Ir para próximo passo"
                     >
                         Próximo
                     </button>
                 </div>
                 {/* Progress Bar */}
-                <ProgressBar progress={((currentStep + 1) / steps.length) * 100} className="rounded-none h-1" />
+                <ProgressBar
+                    progress={((currentStep + 1) / steps.length) * 100}
+                    className="rounded-none h-1"
+                    aria-label={`Progresso: ${currentStep + 1} de ${steps.length} passos completados`}
+                />
             </div>
         </nav>
     );

@@ -32,7 +32,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                 <div className="section-card">
                     <div className="form-question-spacing">
                         <div className="grid grid-cols-1 md:grid-cols-3 form-grid-spacing">
-                            <div className="space-y-2">
+                            <div className="form-field-spacing">
                                 <Label>Possui filhos?</Label>
                                 <Controller
                                     name="filhos_tem"
@@ -47,8 +47,8 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                                     )}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label>Paga pensão?</Label>
+                            <div className="form-field-spacing">
+                                <Label>Paga pensão alimentícia?</Label>
                                 <Controller
                                     name="pensao_paga"
                                     control={control}
@@ -61,8 +61,8 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                                     )}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label>Recebe pensão?</Label>
+                            <div className="form-field-spacing">
+                                <Label>Recebe pensão alimentícia?</Label>
                                 <Controller
                                     name="pensao_recebe"
                                     control={control}
@@ -89,7 +89,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                 </div>
                 <div className="section-card">
                     <div className="grid grid-cols-1 form-grid-spacing">
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label>Possui veículo próprio?</Label>
                             <Controller
                                 name="transporte_veiculo"
@@ -105,7 +105,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                             />
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label>Como vai à Educafro?</Label>
                             <Controller
                                 name="transporte_meio"
@@ -131,7 +131,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                             )}
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="form-field-spacing">
                             <Label>Necessita auxílio transporte?</Label>
                             <Controller
                                 name="transporte_auxilio"
@@ -160,8 +160,8 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                 <div className="section-card">
                     <div className="form-question-spacing">
                         <div className="form-question-spacing">
-                            <div className="space-y-2">
-                                <Label>Você utiliza os serviços do SUS ou possui plano de saúde?</Label>
+                            <div className="form-field-spacing">
+                                <Label>Você utiliza os serviços do SUS, possui plano de saúde ou ambos?</Label>
                                 <Controller
                                     name="saude_plano"
                                     control={control}
@@ -177,7 +177,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                             </div>
 
                             {(saudePlano === 'Apenas SUS' || saudePlano === 'Uso os dois') && (
-                                <div className="space-y-2 bg-app-surfaceHover p-4 rounded-lg">
+                                <div className="form-field-spacing bg-app-surfaceHover p-4 rounded-lg">
                                     <Label>Você utiliza algum dos seguintes serviços do SUS? (Múltipla escolha)</Label>
                                     <Controller
                                         name="saude_servicos"
@@ -204,7 +204,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                         </div>
 
                         <div className="form-question-spacing">
-                            <div className="space-y-2">
+                            <div className="form-field-spacing">
                                 <Label>Você sabe qual é o seu tipo sanguíneo?</Label>
                                 <Controller
                                     name="saude_tipo_sanguineo"
@@ -222,8 +222,8 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                         </div>
 
                         <div className="form-question-spacing">
-                            <div className="space-y-2">
-                                <Label>Você já realizou ou realiza psicoterapia?</Label>
+                            <div className="form-field-spacing">
+                                <Label>Você já realizou ou realiza acompanhamento psicológico/psicoterapia?</Label>
                                 <Controller
                                     name="saude_psicoterapia"
                                     control={control}
@@ -245,11 +245,11 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                             )}
                             {saudePsicoterapia === 'Sim' && (
                                 <div className="grid grid-cols-1 md:grid-cols-2 form-grid-spacing bg-app-surfaceHover p-4 rounded-lg">
-                                    <div className="space-y-2">
+                                    <div className="form-field-spacing">
                                         <Label>Por quanto tempo realizou psicoterapia?</Label>
                                         <Input {...register('saude_psicoterapia_tempo')} error={errors.saude_psicoterapia_tempo?.message} />
                                     </div>
-                                    <div className="space-y-2">
+                                    <div className="form-field-spacing">
                                         <Label>Há quanto tempo encerrou ou se ainda está em acompanhamento?</Label>
                                         <Input {...register('saude_psicoterapia_encerramento')} error={errors.saude_psicoterapia_encerramento?.message} />
                                     </div>
@@ -258,7 +258,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                         </div>
 
                         <div className="form-question-spacing">
-                            <div className="space-y-2">
+                            <div className="form-field-spacing">
                                 <Label>Você possui alguma deficiência, com ou sem laudo médico?</Label>
                                 <Controller
                                     name="saude_deficiencia"
@@ -275,11 +275,11 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                             </div>
                             {saudeDeficiencia === 'Sim' && (
                                 <div className="form-question-spacing bg-app-surfaceHover p-4 rounded-lg">
-                                    <div className="space-y-2">
+                                    <div className="form-field-spacing">
                                         <Label>Qual deficiência?</Label>
                                         <Input {...register('saude_deficiencia_qual')} error={errors.saude_deficiencia_qual?.message} />
                                     </div>
-                                    <div className="space-y-2">
+                                    <div className="form-field-spacing">
                                         <Label>Possui algum familiar com deficiência?</Label>
                                         <Controller
                                             name="saude_familiar_deficiencia"
@@ -295,7 +295,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                                         />
                                     </div>
                                     {saudeFamiliarDeficiencia === 'Sim' && (
-                                        <div className="space-y-2 ml-4">
+                                        <div className="form-field-spacing ml-4">
                                             <Label>Qual?</Label>
                                             <Input {...register('saude_familia_deficiencia_qual')} error={errors.saude_familia_deficiencia_qual?.message} />
                                         </div>
@@ -305,7 +305,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                         </div>
 
                         <div className="form-question-spacing">
-                            <div className="space-y-2">
+                            <div className="form-field-spacing">
                                 <Label>Possui algum problema de saúde diagnosticado?</Label>
                                 <Controller
                                     name="saude_problemas"
@@ -329,7 +329,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                         </div>
 
                         <div className="form-question-spacing">
-                            <div className="space-y-2">
+                            <div className="form-field-spacing">
                                 <Label>Possui alguma alergia?</Label>
                                 <Controller
                                     name="saude_alergias"
@@ -353,7 +353,7 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                         </div>
 
                         <div className="form-question-spacing">
-                            <div className="space-y-2">
+                            <div className="form-field-spacing">
                                 <Label>Faz uso de medicamento contínuo?</Label>
                                 <Controller
                                     name="saude_medicamentos"
@@ -377,8 +377,8 @@ export const FamiliaTransporteSaude = React.memo(function FamiliaTransporteSaude
                         </div>
 
                         <div className="form-question-spacing">
-                            <div className="space-y-2">
-                                <Label>Já fez uso de alguma substância psicoativa? (considerar álcool e cigarro)</Label>
+                            <div className="form-field-spacing">
+                                <Label>Já fez ou faz uso de alguma substância psicoativa? (considerar álcool e cigarro)</Label>
                                 <Controller
                                     name="saude_substancias"
                                     control={control}

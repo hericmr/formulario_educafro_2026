@@ -22,7 +22,7 @@ export const VinculoFamiliar = React.memo(function VinculoFamiliar() {
                 </div>
                 <div className="section-card">
                     <div className="form-question-spacing">
-                        <Label className="text-base font-semibold text-gray-800">Possui familiar estudando/matriculado no núcleo?</Label>
+                        <Label className="text-base font-semibold text-gray-800">Possui algum familiar atualmente estudando ou matriculado na Educafro?</Label>
                         <Controller
                             name="familiar_nucleo"
                             control={control}
@@ -38,7 +38,7 @@ export const VinculoFamiliar = React.memo(function VinculoFamiliar() {
 
                         {temFamiliar && (
                             <div className="form-question-spacing p-4 bg-primary-50 rounded-xl border border-primary-100 animate-in fade-in slide-in-from-top-2">
-                                <div className="space-y-2">
+                                <div className="form-field-spacing">
                                     <Label htmlFor="vinculo_familiar">Qual o vínculo?</Label>
                                     <Controller
                                         name="vinculo_familiar"
@@ -63,7 +63,7 @@ export const VinculoFamiliar = React.memo(function VinculoFamiliar() {
                                         </div>
                                     )}
                                 </div>
-                                <div className="space-y-2">
+                                <div className="form-field-spacing">
                                     <Label htmlFor="nome_familiar">Nome completo do familiar</Label>
                                     <Input id="nome_familiar" {...register('nome_familiar')} error={errors.nome_familiar?.message} />
                                 </div>

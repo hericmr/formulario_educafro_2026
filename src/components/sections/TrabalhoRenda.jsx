@@ -37,8 +37,8 @@ export const TrabalhoRenda = React.memo(function TrabalhoRenda() {
                 <div className="section-card">
                     <div className="form-question-spacing">
                         {/* Q1 */}
-                        <div className="space-y-2">
-                            <Label className="text-base font-semibold">1. Na última semana, realizou alguma atividade que gerou renda?</Label>
+                        <div className="form-field-spacing">
+                            <Label className="text-base font-semibold">1. Na última semana, realizou alguma atividade que gerou renda (formal ou informal)?</Label>
                             <Controller
                                 name="trabalho_renda_semana"
                                 control={control}
@@ -54,8 +54,8 @@ export const TrabalhoRenda = React.memo(function TrabalhoRenda() {
                         </div>
 
                         {/* Q2 */}
-                        <div className="space-y-2 pt-4 border-t border-app-border">
-                            <Label className="text-base font-semibold">2. Na última semana, ajudou familiar em atividade produtiva sem pagamento?</Label>
+                        <div className="form-field-spacing pt-4 border-t border-app-border">
+                            <Label className="text-base font-semibold">2. Na última semana, ajudou algum familiar em atividade produtiva sem receber pagamento?</Label>
                             <Controller
                                 name="trabalho_ajuda_familiar"
                                 control={control}
@@ -75,7 +75,7 @@ export const TrabalhoRenda = React.memo(function TrabalhoRenda() {
                             <div className="form-question-spacing p-4 bg-primary-50 rounded-xl border border-primary-100 animate-in fade-in">
 
                                 {/* Q3 */}
-                                <div className="space-y-2">
+                                <div className="form-field-spacing">
                                     <Label htmlFor="trabalho_vinculo">3. Tipo de vínculo ou atividade principal</Label>
                                     <Controller
                                         name="trabalho_vinculo"
@@ -101,7 +101,7 @@ export const TrabalhoRenda = React.memo(function TrabalhoRenda() {
                                 </div>
 
                                 {/* Q4 */}
-                                <div className="space-y-2">
+                                <div className="form-field-spacing">
                                     <Label htmlFor="trabalho_horario">4. Horário de trabalho</Label>
                                     <div className="flex items-center gap-2">
                                         <Input type="time" {...register('trabalho_horario_inicio')} className="w-32" />
@@ -117,7 +117,7 @@ export const TrabalhoRenda = React.memo(function TrabalhoRenda() {
                                 </div>
 
                                 {/* Q5 */}
-                                <div className="space-y-2">
+                                <div className="form-field-spacing">
                                     <Label htmlFor="trabalho_uso_dinheiro">5. Principal uso do dinheiro</Label>
                                     <Controller
                                         name="trabalho_uso_dinheiro"

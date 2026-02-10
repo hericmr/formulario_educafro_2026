@@ -37,7 +37,13 @@ function FormContent() {
 
             // Clean data: replace empty strings with null for Supabase/Postgres compatibility
             const cleanedData = Object.keys(data).reduce((acc, key) => {
-                const value = data[key];
+                let value = data[key];
+
+                // Special handling for array fields that need to be stored as strings
+                if (key === 'entrevistador' && Array.isArray(value)) {
+                    value = value.join(', ');
+                }
+
                 acc[key] = (value === "" || value === undefined) ? null : value;
                 return acc;
             }, {});

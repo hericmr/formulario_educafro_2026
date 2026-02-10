@@ -8,7 +8,7 @@ const FormContext = createContext({});
 
 // Preliminary schema - will be expanded
 const baseSchema = z.object({
-    entrevistador: z.string().optional(),
+    entrevistador: z.array(z.string()).optional(),
     data_entrevista: z.string().optional(),
 
     // Section 2

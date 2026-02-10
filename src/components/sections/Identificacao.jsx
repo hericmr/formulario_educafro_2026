@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useFormContext as useRHFContext, Controller } from 'react-hook-form';
 import { Label } from '@/components/ui/Label';
 import { RadioGroup } from '@/components/ui/RadioGroup';
+import { CheckboxGroup } from '@/components/ui/CheckboxGroup';
 import { Input } from '@/components/ui/Input';
 import { ASSISTENTES_SOCIAIS } from '@/lib/constants';
 
@@ -26,7 +27,7 @@ export function Identificacao() {
                             name="entrevistador"
                             control={control}
                             render={({ field }) => (
-                                <RadioGroup
+                                <CheckboxGroup
                                     {...field}
                                     options={ASSISTENTES_SOCIAIS}
                                     error={errors.entrevistador?.message}
@@ -34,7 +35,7 @@ export function Identificacao() {
                                 />
                             )}
                         />
-                        {watch('entrevistador') === 'Outro' && (
+                        {watch('entrevistador')?.includes('Outro') && (
                             <div className="mt-4 animate-in fade-in">
                                 <Label htmlFor="entrevistador_outro">Qual Nome?</Label>
                                 <Input

@@ -40,18 +40,30 @@ export const ReviewModal = ({ isOpen, onClose, onConfirm, data, validationErrors
     // For now, we will group by Section based on FORM_STEPS
 
     // We need to map fields to sections.
+    // We need to map fields to sections and filter out empty ones
     const sectionsWithData = FORM_STEPS.map(step => {
         const stepFields = step.fields;
         const stepData = stepFields.map(field => ({
             key: field,
             value: data[field],
             error: validationErrors[field]
-        }));
+        })).filter(item => {
+            // If it has an error, we MUST show it even if empty to alert the user
+            if (item.error) return true;
+
+            const val = item.value;
+            // Filter out empty values (null, undefined, empty string, or empty array)
+            if (val === undefined || val === null || val === '') return false;
+            if (Array.isArray(val) && val.length === 0) return false;
+
+            return true;
+        });
+
         return {
             title: step.title,
             fields: stepData
         };
-    });
+    }).filter(section => section.fields.length > 0); // Filter out sections that have no filled fields
 
     return (
         <div

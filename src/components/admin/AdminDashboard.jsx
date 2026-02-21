@@ -16,6 +16,7 @@ import {
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { AdminEntryDetails } from './AdminEntryDetails';
+import { FIELD_LABELS, FIELD_ORDER } from '@/constants/fieldLabels';
 
 export function AdminDashboard() {
     const [entrevistas, setEntrevistas] = useState([]);
@@ -75,6 +76,20 @@ export function AdminDashboard() {
         );
     };
 
+    const formatValue = (key, value) => {
+        if (value === null || value === undefined) return '-';
+        if (typeof value === 'boolean') return value ? 'Sim' : 'Não';
+        if (key === 'created_at' || key === 'data_entrevista' || key === 'data_nascimento') {
+            try {
+                return format(new Date(value), "dd/MM/yyyy", { locale: ptBR });
+            } catch (e) {
+                return value;
+            }
+        }
+        if (key === 'status_formulario') return getStatusBadge(value);
+        return String(value);
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans">
             <div className="max-w-7xl mx-auto">
@@ -99,7 +114,7 @@ export function AdminDashboard() {
                 </div>
 
                 {/* Stats Summary */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-7xl mx-auto">
                     <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                         <div className="text-sm font-medium text-gray-500 mb-1">Total de Entrevistas</div>
                         <div className="text-2xl font-bold text-gray-900">{entrevistas.length}</div>
@@ -146,24 +161,29 @@ export function AdminDashboard() {
                     </div>
                 </div>
 
-                {/* Table */}
-                <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
+                {/* Wide Table with Horizontal Scroll */}
+                <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
+                    <div className="overflow-x-auto custom-scrollbar">
+                        <table className="w-full text-left border-collapse table-fixed min-w-[3000px]">
                             <thead>
                                 <tr className="bg-gray-50 border-b border-gray-200">
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Candidato</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Contato / CPF</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Entrevistador</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Data/Hora</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Ações</th>
+                                    <th className="sticky left-0 z-10 bg-gray-50 px-6 py-4 text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-80">
+                                        Nome Completo
+                                    </th>
+                                    {FIELD_ORDER.filter(key => key !== 'nome_completo').map(key => (
+                                        <th key={key} className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider w-64">
+                                            {FIELD_LABELS[key] || key}
+                                        </th>
+                                    ))}
+                                    <th className="sticky right-0 z-10 bg-gray-50 px-6 py-4 text-xs font-bold text-gray-700 uppercase tracking-wider border-l border-gray-200 w-32 text-center">
+                                        Ações
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {loading ? (
                                     <tr>
-                                        <td colSpan="6" className="px-6 py-12 text-center text-gray-500">
+                                        <td colSpan={FIELD_ORDER.length + 1} className="px-6 py-12 text-center text-gray-500">
                                             <div className="flex flex-col items-center gap-2">
                                                 <RefreshCcw className="w-8 h-8 animate-spin text-primary-500" />
                                                 <p>Carregando dados...</p>
@@ -172,43 +192,32 @@ export function AdminDashboard() {
                                     </tr>
                                 ) : filteredData.length === 0 ? (
                                     <tr>
-                                        <td colSpan="6" className="px-6 py-12 text-center text-gray-500">
+                                        <td colSpan={FIELD_ORDER.length + 1} className="px-6 py-12 text-center text-gray-500">
                                             Nenhum resultado encontrado.
                                         </td>
                                     </tr>
                                 ) : (
                                     filteredData.map((item) => (
                                         <tr key={item.id} className="hover:bg-gray-50 transition-colors">
-                                            <td className="px-6 py-4">
+                                            <td className="sticky left-0 z-10 bg-white group-hover:bg-gray-50 px-6 py-4 font-semibold text-gray-900 border-r border-gray-200 shadow-[2px_0_5px_rgba(0,0,0,0.05)] w-80 truncate">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold">
+                                                    <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 text-sm">
                                                         {item.nome_completo?.charAt(0) || '?'}
                                                     </div>
-                                                    <div>
-                                                        <div className="font-semibold text-gray-900">{item.nome_completo || 'Sem nome'}</div>
-                                                        <div className="text-xs text-gray-500">{item.cidade || 'Cidade não inf.'}</div>
-                                                    </div>
+                                                    {item.nome_completo || 'Sem nome'}
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <div className="text-sm text-gray-900">{item.email || '-'}</div>
-                                                <div className="text-xs text-gray-500">{item.cpf || '-'}</div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="text-sm text-gray-700">{item.entrevistador || '-'}</div>
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-500">
-                                                {item.created_at ? format(new Date(item.created_at), "dd/MM/yyyy HH:mm", { locale: ptBR }) : '-'}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                {getStatusBadge(item.status_formulario)}
-                                            </td>
-                                            <td className="px-6 py-4 text-right">
+                                            {FIELD_ORDER.filter(key => key !== 'nome_completo').map(key => (
+                                                <td key={key} className="px-6 py-4 text-sm text-gray-600 w-64 truncate" title={item[key]}>
+                                                    {formatValue(key, item[key])}
+                                                </td>
+                                            ))}
+                                            <td className="sticky right-0 z-10 bg-white px-6 py-4 text-center border-l border-gray-200 shadow-[-2px_0_5px_rgba(0,0,0,0.05)] w-32">
                                                 <button
-                                                    className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-primary-50 transition-all"
+                                                    className="p-2 text-primary-600 hover:bg-primary-50 rounded-lg transition-all"
                                                     onClick={() => setSelectedEntry(item)}
                                                 >
-                                                    <Eye className="w-4 h-4" /> Detalhes
+                                                    <Eye className="w-5 h-5" />
                                                 </button>
                                             </td>
                                         </tr>

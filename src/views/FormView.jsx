@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext } from '@/context/FormContext';
 import { useFormContext as useRHF } from 'react-hook-form';
-import { supabase } from '@/lib/supabase';
+import { supabase, allSupabaseClients } from '@/lib/supabase';
 import { StepIndicator } from '@/components/form/StepIndicator';
 import { Identificacao } from '@/components/sections/Identificacao';
 import { DadosPessoais } from '@/components/sections/DadosPessoais';
@@ -59,6 +59,7 @@ export function FormView() {
                 status_formulario: isFinal ? 'completo' : 'rascunho'
             };
 
+            // Salva apenas no novo banco configurado
             const { error } = await supabase
                 .from('entrevistas')
                 .upsert([payload], { onConflict: 'form_uuid' });

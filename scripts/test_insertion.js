@@ -3,7 +3,14 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = 'https://czpkifgudgdpvrvvqaoz.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6cGtpZmd1ZGdkcHZydnZxYW96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAzODI3MzksImV4cCI6MjA4NTk1ODczOX0.ud_MYn1zMibj07HL3WlkgJT8qzH6-goWUkPqSODEpnU';
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Adicione aqui os dados do segundo banco para testes
+const supabaseUrl2 = 'https://SEU_NOVO_PROJETO.supabase.co';
+const supabaseKey2 = 'SUA_NOVA_ANON_KEY';
+
+const supabase1 = createClient(supabaseUrl, supabaseKey);
+const supabase2 = createClient(supabaseUrl2, supabaseKey2);
+
+const clients = [supabase1, supabase2];
 
 const fullTestData = {
     entrevistador: "João Silva",
@@ -89,19 +96,20 @@ const fullTestData = {
 };
 
 async function testInsertion() {
-    console.log("Iniciando teste de inserção...");
-    const { data, error } = await supabase
-        .from('entrevistas')
-        .insert([fullTestData])
-        .select();
+    console.log("Iniciando teste de inserção nos bancos configurados...");
+    
+    for (let i = 0; i < clients.length; i++) {
+        console.log(`Testando Banco ${i + 1}...`);
+        const { data, error } = await clients[i]
+            .from('entrevistas')
+            .insert([fullTestData])
+            .select();
 
-    if (error) {
-        console.error("Erro ao inserir:", error.message);
-        console.error("Detalhes:", error.details);
-        console.error("Dica:", error.hint);
-    } else {
-        console.log("Inserção realizada com sucesso!");
-        console.log("Dados inseridos:", data);
+        if (error) {
+            console.error(`Erro ao inserir no Banco ${i + 1}:`, error.message);
+        } else {
+            console.log(`Inserção no Banco ${i + 1} realizada com sucesso!`);
+        }
     }
 }
 
